@@ -11,7 +11,7 @@ evals y opcionalmente scripts) y skills planos (archivo único).
 
 ## Qué tiene
 
-**8 artefactos** organizados en cuatro categorías:
+**9 artefactos** organizados en cuatro categorías:
 
 ### Skills de usabilidad y accesibilidad
 
@@ -20,6 +20,7 @@ evals y opcionalmente scripts) y skills planos (archivo único).
 | **Heuristy — Evaluación Heurística Nielsen** | Skill estructurado | 2.0 | Identifica problemas de usabilidad en interfaces digitales usando las 10 heurísticas de Nielsen + 4 extensiones para banca/retail. Genera score global, matriz de priorización y roadmap. |
 | **Accesibilidad Digital WCAG 2.2** | Skill estructurado | 2.0 | Audita sitios web contra los 87 criterios WCAG 2.2 (A, AA, AAA). Detecta barreras de acceso, calcula contraste, verifica lectores de pantalla. Adaptado a normativa colombiana. |
 | **Tognazzini — Créditos de Vivienda** | Skill estructurado | 2.0 | Evalúa la experiencia de usuario en solicitudes de crédito de vivienda (canales digitales y presenciales) aplicando las 16 heurísticas de Bruce Tognazzini. Genera Puntuación General, ranking de hallazgos por prioridad y roadmap. |
+| **Auditoría de Flujos** | Skill estructurado | — | Audita la trazabilidad entre la investigación de usuario existente (dolores, necesidades, oportunidades) y un flujo ya diseñado en Figma, Miro, Condens o capturas: qué dolores resuelve, cuáles no, qué partes del flujo no tienen sustento, qué huecos tiene la investigación y qué debe probarse con usuario antes de entregar. |
 
 ### Skills de especificación de sistemas de diseño
 
@@ -50,6 +51,7 @@ evals y opcionalmente scripts) y skills planos (archivo único).
 | Heuristy | Necesites una auditoría rápida de usabilidad antes de un lanzamiento. Quieras priorizar problemas de UX con datos (severidad, impacto, esfuerzo). Trabajes en banca digital o e-commerce y necesites cubrir normativa. |
 | Accesibilidad WCAG | Te exijan cumplimiento legal de accesibilidad (Circular SFC, Ley 1618, MinTIC). Quieras certificar nivel A/AA/AAA. Necesites reportes técnicos + ejecutivos + declaración de conformidad. |
 | Tognazzini | Estés diseñando o auditando el flujo de crédito de vivienda. Necesites una evaluación centrada en la experiencia del usuario, no solo en la interfaz. |
+| Auditoría de Flujos | Vayas a entregar un flujo, blueprint o journey apoyado en investigación previa y no en pruebas con usuarios. Quieras saber si el research (propio o del cliente) responde a lo que diseñaste y qué le falta. |
 | Contratos de Diseño | Necesites especificar una pieza de UI para que cualquier IA la genere igual. Quieras estandarizar cómo se documentan los componentes de tu design system contra tokens reales. |
 | Designsystem-creator | Vayas a arrancar un sistema de diseño nuevo desde cero. Quieras conectar un Figma nuevo o migrar código existente y organizarlo como sistema de contratos. Necesites el andamiaje completo (docs-site, CI, scripts) sin construirlo a mano. |
 | Proto-Persona Top Tier | Quieras validar que tu producto bancario cumple las expectativas del segmento premium. Necesites behavioral insights del cliente de altos ingresos. Quieras reinterpretar hallazgos de otros skills desde la perspectiva Top Tier. |
@@ -168,6 +170,9 @@ diseno-de-soluciones/
 │   ├── evals/evals.json                         # Pruebas de calidad
 │   └── scripts/                                 # 3 scripts + 2 plantillas JSON
 │
+├── auditoria-de-flujos/                         # Skill estructurado
+│   └── SKILL.md                                 # Lógica principal (7 pasos, 3 aprobaciones)
+│
 ├── contratos-de-diseno/                         # Skill estructurado (sin scripts)
 │   ├── SKILL.md                                 # Lógica principal (tokens → ficha → compilar → validar)
 │   ├── README.md                                # Documentación
@@ -214,10 +219,10 @@ diseno-de-soluciones/
 
 | Tipo | Cantidad |
 |------|:--------:|
-| Skills estructurados (carpeta) | 6 |
+| Skills estructurados (carpeta) | 7 |
 | Skills planos (archivo único) | 1 |
 | Guías | 1 |
-| **Total artefactos** | **8** |
+| **Total artefactos** | **9** |
 | Referencias técnicas | 28 |
 | Scripts Python / Shell | 15 |
 | Plantillas de reporte | 3 |

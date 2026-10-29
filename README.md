@@ -1,6 +1,38 @@
 # Diseño de Soluciones
 
+![Diseño de Soluciones, skills para Claude Code: ocho skills de diseño; eliges cuáles instalar con un comando](docs/opengraph.svg)
+
 > Chapter de **People Center Design - Pragma**.
+
+## Instalación rápida
+
+Necesitas tener [Claude Code](https://claude.com/claude-code) instalado. Abre la
+terminal **en la carpeta de tu proyecto**, copia el comando completo, pégalo y
+presiona Enter. El instalador te muestra la lista de skills y te pregunta
+cuáles quieres; solo esas se instalan.
+
+**En Windows** (PowerShell; el comando de Mac aquí falla):
+
+```powershell
+irm https://raw.githubusercontent.com/davidortiz-ops/diseno-de-soluciones/main/install.ps1 | iex
+```
+
+Atajo: abre la carpeta en el Explorador de archivos, haz clic en la barra de
+dirección, escribe `powershell` y presiona Enter. PowerShell se abre ya dentro
+de ella.
+
+**En Mac o Linux** (Terminal; en Windows falla con «parámetro 'fsSL'»):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/davidortiz-ops/diseno-de-soluciones/main/install.sh | bash
+```
+
+Si estás en tu carpeta personal, el instalador te pide la ruta de la carpeta de
+trabajo. Luego abre Claude con `claude` y pide la tarea en tus palabras (por
+ejemplo, «audita este flujo»): la skill se activa sola. Volver a ejecutar el
+comando actualiza las skills que ya tenías.
+
+![Cómo funciona Diseño de Soluciones](docs/como-funciona.svg)
 
 Artefactos para la fase de **diseño de soluciones**: evaluación de usabilidad,
 accesibilidad, experiencia conductual, madurez de design systems y
@@ -92,8 +124,9 @@ Cada skill opera en **dos modos** que se detectan automáticamente:
 
 ## Cómo instalarlos
 
-Este repositorio es **público**. Cada skill se instala **por separado**: antes de
-instalar, elige cuáles necesitas de esta lista.
+Este repositorio es **público**. Además de la [instalación rápida](#instalación-rápida),
+hay otras formas de instalar. En todas, cada skill se instala **por separado**:
+elige cuáles necesitas de esta lista.
 
 | Skill | Nombre para instalar | Archivo para subir |
 |-------|----------------------|--------------------|
@@ -105,6 +138,35 @@ instalar, elige cuáles necesitas de esta lista.
 | Heuristy | `evaluacion-heuristica` | [evaluacion-heuristica.skill](instaladores/evaluacion-heuristica.skill) |
 | Proto-Persona Top Tier | `proto-persona-banca-top-tier` | [proto-persona-banca-top-tier.skill](instaladores/proto-persona-banca-top-tier.skill) |
 | Tognazzini | `tognazzini-creditos-vivienda` | [tognazzini-revision-heuristica-creditos-vivienda.skill](instaladores/tognazzini-revision-heuristica-creditos-vivienda.skill) |
+
+### Pedírselo a Claude (sin entrar a GitHub)
+
+Copia este mensaje y pégalo en el chat de Claude Code. Claude te muestra la
+lista, te pregunta cuáles quieres y las instala desde el catálogo.
+
+```
+Quiero instalar skills del catálogo de Diseño de Soluciones de Pragma.
+
+1. Agrega el catálogo ejecutando:
+   claude plugin marketplace add davidortiz-ops/diseno-de-soluciones
+
+2. Muéstrame en español esta lista con una línea de qué hace cada una y
+   pregúntame cuáles quiero instalar (puedo elegir varias):
+   - accesibilidad-wcag
+   - auditoria-de-flujos
+   - consultor-madurez-design-systems
+   - contratos-de-diseno
+   - designsystem-creator
+   - evaluacion-heuristica
+   - proto-persona-banca-top-tier
+   - tognazzini-creditos-vivienda
+
+3. Instala solo las que yo elija, una por una, con:
+   claude plugin install <nombre>@diseno-de-soluciones
+
+4. Al terminar, dime cuáles quedaron instaladas y que debo reiniciar Claude
+   para empezar a usarlas.
+```
 
 ### Opción A — Desde Claude Cowork o Claude Code (catálogo)
 

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="t d">
+  <title id="t">Diseño de Soluciones</title>
+  <desc id="d">Diseño de Soluciones, skills de Claude Code de People Center Design - Pragma: ocho skills de diseño (accesibilidad, auditoría de flujos, heurísticas y design systems) que instalas con un comando, eligiendo solo las que necesitas.</desc>
+  <defs>
+    <linearGradient id="fondo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0F0B1A"/>
+      <stop offset="1" stop-color="#22163D"/>
+    </linearGradient>
+    <radialGradient id="brillo" cx="0.85" cy="0.2" r="0.6">
+      <stop offset="0" stop-color="#8B5CF6" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#A78BFA" stop-opacity="0"/>
+    </radialGradient>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; fill: #E6EDF3; }
+      .marca { font-size: 22px; font-weight: 700; letter-spacing: 3px; fill: #A78BFA; }
+      .titulo { font-size: 80px; font-weight: 800; letter-spacing: -2px; }
+      .lema { font-size: 30px; font-weight: 500; fill: #D4CCF0; }
+      .chip { font-size: 19px; font-weight: 600; fill: #DDD6FE; }
+      .code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 20px; fill: #E6EDF3; }
+      .prompt { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 20px; fill: #A78BFA; }
+      .tenue { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 18px; fill: #8B949E; }
+      .pie { font-size: 20px; fill: #8B949E; }
+    </style>
+  </defs>
+
+  <rect width="1280" height="640" fill="url(#fondo)"/>
+  <rect width="1280" height="640" fill="url(#brillo)"/>
+  <rect x="0" y="0" width="1280" height="8" fill="#A78BFA"/>
+
+  <text class="marca" x="80" y="110">SKILLS PARA CLAUDE CODE</text>
+  <text class="titulo" x="76" y="194">Diseño de</text>
+  <text class="titulo" x="76" y="276">Soluciones</text>
+  <text class="lema" x="80" y="336">Ocho skills de diseño. Eliges</text>
+  <text class="lema" x="80" y="376">cuáles instalar con un comando.</text>
+
+  <g transform="translate(80 420)">
+    <rect width="222" height="44" rx="22" fill="#2E1F4F"/>
+    <text class="chip" x="111" y="29" text-anchor="middle">Accesibilidad WCAG</text>
+    <rect x="236" width="222" height="44" rx="22" fill="#2E1F4F"/>
+    <text class="chip" x="347" y="29" text-anchor="middle">Auditoría de flujos</text>
+    <rect y="58" width="222" height="44" rx="22" fill="#2E1F4F"/>
+    <text class="chip" x="111" y="87" text-anchor="middle">Heurísticas UX</text>
+    <rect x="236" y="58" width="222" height="44" rx="22" fill="#2E1F4F"/>
+    <text class="chip" x="347" y="87" text-anchor="middle">Design systems</text>
+  </g>
+
+  <!-- Terminal -->
+  <g transform="translate(700 150)">
+    <rect width="500" height="330" rx="18" fill="#010409" stroke="#30363D" stroke-width="2"/>
+    <circle cx="30" cy="30" r="7" fill="#F85149"/>
+    <circle cx="54" cy="30" r="7" fill="#D29922"/>
+    <circle cx="78" cy="30" r="7" fill="#3FB950"/>
+    <line x1="0" y1="58" x2="500" y2="58" stroke="#30363D" stroke-width="2"/>
+    <text class="tenue" x="30" y="100"># en la carpeta de tu proyecto</text>
+    <text class="prompt" x="30" y="138">$</text>
+    <text class="code" x="54" y="138">curl … | bash</text>
+    <text class="tenue" x="30" y="172">¿Cuáles instalo? 2,6</text>
+    <text class="tenue" x="30" y="200">OK  auditoria-de-flujos</text>
+    <text class="prompt" x="30" y="246">$</text>
+    <text class="code" x="54" y="246">claude</text>
+    <text class="prompt" x="30" y="286">›</text>
+    <text class="code" x="54" y="286">audita este flujo</text>
+    <rect x="262" y="270" width="12" height="22" fill="#A78BFA"/>
+  </g>
+
+  <text class="pie" x="80" y="584">Windows, Mac o Linux · Claude Code y Cowork · People Center Design - Pragma</text>
+</svg>

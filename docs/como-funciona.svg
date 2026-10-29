@@ -1,0 +1,222 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="830" viewBox="0 0 1200 830" role="img" aria-labelledby="t d">
+  <title id="t">Cómo funciona Diseño de Soluciones</title>
+  <desc id="d">Instalas con un comando en la carpeta de tu proyecto, en Windows, Mac o Linux. Ves la lista de las ocho skills y escribes los números de las que quieres, o «todas». Solo esas se copian a .claude/skills de tu carpeta; si ya las tenías, se actualizan. Luego le pides la tarea a Claude en tus palabras y la skill se activa sola. Contiene: Accesibilidad WCAG, Auditoría de flujos, Madurez de Design Systems, Contratos de diseño, Designsystem-creator, Heuristy, Proto-persona Top Tier y Tognazzini. En cada tarea: pides la tarea, se activa la skill, sigue su método, entrega el informe y tú decides.</desc>
+  <defs>
+    <linearGradient id="fondo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0D1117"/>
+      <stop offset="1" stop-color="#161B22"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#F97316" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#F97316" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="flecha" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#F97316"/>
+    </marker>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; fill: #E6EDF3; }
+      .h1 { font-size: 34px; font-weight: 700; }
+      .sub { font-size: 18px; fill: #9DA7B3; }
+      .num { font-size: 15px; font-weight: 700; fill: #0D1117; }
+      .paso { font-size: 19px; font-weight: 700; }
+      .txt { font-size: 14px; fill: #9DA7B3; }
+      .mini { font-size: 12px; fill: #9DA7B3; }
+      .chip { font-size: 12px; font-weight: 600; fill: #FDBA74; }
+      .code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #FDBA74; }
+      .seccion { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; fill: #F97316; }
+      .tit { font-size: 16px; font-weight: 700; }
+      .ciclo { font-size: 16px; font-weight: 600; fill: #E6EDF3; }
+      .card { fill: #161B22; stroke: #30363D; }
+      .tile { fill: #161B22; stroke: #30363D; }
+      .barra { fill: #F97316; }
+
+      /* Entrada escalonada */
+      .entra { opacity: 0; animation: entra .7s cubic-bezier(.2,.7,.2,1) forwards; }
+      @keyframes entra { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+      .d0 { animation-delay: .1s; } .d1 { animation-delay: .5s; } .d2 { animation-delay: 1.1s; }
+      .d3 { animation-delay: 1.7s; } .d4 { animation-delay: 2.3s; }
+      .t1 { animation-delay: 2.9s; } .t2 { animation-delay: 3.05s; } .t3 { animation-delay: 3.2s; } .t4 { animation-delay: 3.35s; }
+      .t5 { animation-delay: 3.5s; } .t6 { animation-delay: 3.65s; } .t7 { animation-delay: 3.8s; } .t8 { animation-delay: 3.95s; }
+      .ce { animation-delay: 4.3s; }
+
+      /* Flechas que se dibujan */
+      .traza { stroke-dasharray: 40; stroke-dashoffset: 40; animation: traza .5s ease-out forwards; }
+      @keyframes traza { to { stroke-dashoffset: 0; } }
+      .a1 { animation-delay: 1s; } .a2 { animation-delay: 1.6s; } .a3 { animation-delay: 2.2s; }
+
+      /* Las skills elegidas se marcan una a una */
+      .marca { opacity: 0; animation: entra .4s ease-out forwards; }
+      .m1 { animation-delay: 1.5s; } .m2 { animation-delay: 1.8s; } .m3 { animation-delay: 2.1s; }
+
+      /* El paso de elegir late */
+      .late { animation: late 2.4s ease-in-out 1.8s infinite; }
+      @keyframes late { 0%, 100% { stroke-opacity: .55; } 50% { stroke-opacity: 1; } }
+      .halo { opacity: 0; animation: halo 2.4s ease-in-out 1.8s infinite; }
+      @keyframes halo { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+
+      /* Punto que recorre el ciclo de cada tarea */
+      .punto { offset-path: path("M32 96 H1048"); opacity: 0; animation: recorre 6s linear 4.8s infinite; }
+      @keyframes recorre { 0% { offset-distance: 0%; opacity: 0; } 6% { opacity: 1; } 94% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+      .resalta { animation: resalta 6s linear infinite; }
+      .r1 { animation-delay: 4.8s; } .r2 { animation-delay: 6s; } .r3 { animation-delay: 7.2s; }
+      .r4 { animation-delay: 8.4s; } .r5 { animation-delay: 9.6s; }
+      @keyframes resalta { 0%, 24%, 100% { fill: #E6EDF3; } 6%, 18% { fill: #FDBA74; } }
+
+      @media (prefers-reduced-motion: reduce) {
+        .entra, .traza, .late, .resalta, .marca { animation: none !important; opacity: 1; stroke-dashoffset: 0; transform: none; }
+        .halo, .punto { animation: none !important; opacity: 0; }
+      }
+    </style>
+  </defs>
+
+  <rect width="1200" height="830" rx="24" fill="url(#fondo)"/>
+  <rect x="0.5" y="0.5" width="1199" height="829" rx="24" fill="none" stroke="#30363D"/>
+
+  <g class="entra d0">
+    <text class="h1" x="60" y="78">Ocho skills de diseño, instaladas a tu medida</text>
+    <text class="sub" x="60" y="112">Eliges cuáles necesitas y Claude las activa cuando la tarea lo pide.</text>
+  </g>
+
+  <!-- Paso 1 -->
+  <g transform="translate(60 150)"><g class="entra d1">
+    <rect class="card" width="246" height="200" rx="16"/>
+    <circle cx="34" cy="36" r="15" fill="#F97316"/>
+    <text class="num" x="34" y="41" text-anchor="middle">1</text>
+    <text class="paso" x="58" y="43">Instala</text>
+    <text class="txt" x="20" y="78">Un solo comando, en la</text>
+    <text class="txt" x="20" y="97">carpeta de tu proyecto.</text>
+    <text class="txt" x="20" y="116">Funciona en:</text>
+    <rect x="20" y="128" width="82" height="24" rx="12" fill="#3B1D0C"/>
+    <text class="chip" x="61" y="144" text-anchor="middle">Windows</text>
+    <rect x="108" y="128" width="50" height="24" rx="12" fill="#3B1D0C"/>
+    <text class="chip" x="133" y="144" text-anchor="middle">Mac</text>
+    <rect x="164" y="128" width="58" height="24" rx="12" fill="#3B1D0C"/>
+    <text class="chip" x="193" y="144" text-anchor="middle">Linux</text>
+    <text class="mini" x="20" y="180">O desde el catálogo de Cowork.</text>
+  </g></g>
+
+  <path class="traza a1" d="M310 250 H336" stroke="#F97316" stroke-width="2.5" fill="none" marker-end="url(#flecha)"/>
+
+  <!-- Paso 2 -->
+  <g transform="translate(338 150)"><g class="entra d2">
+    <ellipse class="halo" cx="123" cy="100" rx="170" ry="140" fill="url(#halo)"/>
+    <rect width="246" height="200" rx="16" fill="#1C1410"/>
+    <rect class="late" width="246" height="200" rx="16" fill="none" stroke="#F97316" stroke-width="1.5"/>
+    <circle cx="34" cy="36" r="15" fill="#F97316"/>
+    <text class="num" x="34" y="41" text-anchor="middle">2</text>
+    <text class="paso" x="58" y="43">Elige cuáles</text>
+    <text class="txt" x="20" y="78">Ves la lista de las 8 skills y</text>
+    <text class="txt" x="20" y="97">escribes sus números:</text>
+    <text class="code" x="20" y="124">¿Cuáles instalo? 2,6</text>
+    <text class="code marca m1" x="20" y="146">✓ Auditoría de flujos</text>
+    <text class="code marca m2" x="20" y="166">✓ Heuristy</text>
+    <text class="txt marca m3" x="20" y="188" style="font-weight:600;fill:#FDBA74">→ o escribe «todas»</text>
+  </g></g>
+
+  <path class="traza a2" d="M588 250 H614" stroke="#F97316" stroke-width="2.5" fill="none" marker-end="url(#flecha)"/>
+
+  <!-- Paso 3 -->
+  <g transform="translate(616 150)"><g class="entra d3">
+    <rect class="card" width="246" height="200" rx="16"/>
+    <circle cx="34" cy="36" r="15" fill="#F97316"/>
+    <text class="num" x="34" y="41" text-anchor="middle">3</text>
+    <text class="paso" x="58" y="43">En tu carpeta</text>
+    <text class="txt" x="20" y="78">Solo las que elegiste, en:</text>
+    <text class="code" x="20" y="104">.claude/skills/</text>
+    <text class="txt" x="20" y="136">Si ya las tenías, se</text>
+    <text class="txt" x="20" y="155">actualizan. Nada más</text>
+    <text class="txt" x="20" y="174">cambia en tu proyecto.</text>
+  </g></g>
+
+  <path class="traza a3" d="M866 250 H892" stroke="#F97316" stroke-width="2.5" fill="none" marker-end="url(#flecha)"/>
+
+  <!-- Paso 4 -->
+  <g transform="translate(894 150)"><g class="entra d4">
+    <rect class="card" width="246" height="200" rx="16"/>
+    <circle cx="34" cy="36" r="15" fill="#F97316"/>
+    <text class="num" x="34" y="41" text-anchor="middle">4</text>
+    <text class="paso" x="58" y="43">Pide la tarea</text>
+    <text class="txt" x="20" y="78">Abre Claude y pídelo en</text>
+    <text class="txt" x="20" y="97">tus palabras:</text>
+    <text class="code" x="20" y="124">› audita este flujo</text>
+    <text class="txt" x="20" y="156">La skill que corresponde</text>
+    <text class="txt" x="20" y="175">se activa sola.</text>
+  </g></g>
+
+  <!-- Lo que contiene -->
+  <text class="seccion entra t1" x="60" y="400">LO QUE CONTIENE</text>
+
+  <g transform="translate(60 418)"><g class="entra t1">
+    <rect class="tile" width="255" height="96" rx="14"/>
+    <rect class="barra" width="5" height="96" rx="2.5"/>
+    <text class="tit" x="22" y="34">Accesibilidad WCAG</text>
+    <text class="txt" x="22" y="60">87 criterios WCAG 2.2 y</text>
+    <text class="txt" x="22" y="79">normativa colombiana.</text>
+  </g></g>
+  <g transform="translate(335 418)"><g class="entra t2">
+    <rect class="tile" width="255" height="96" rx="14"/>
+    <rect class="barra" width="5" height="96" rx="2.5"/>
+    <text class="tit" x="22" y="34">Auditoría de flujos</text>
+    <text class="txt" x="22" y="60">¿El flujo resuelve los dolores</text>
+    <text class="txt" x="22" y="79">de la investigación?</text>
+  </g></g>
+  <g transform="translate(610 418)"><g class="entra t3">
+    <rect class="tile" width="255" height="96" rx="14"/>
+    <rect class="barra" width="5" height="96" rx="2.5"/>
+    <text class="tit" x="22" y="34">Madurez de Design Systems</text>
+    <text class="txt" x="22" y="60">Diagnóstico en 5 niveles y</text>
+    <text class="txt" x="22" y="79">hoja de ruta MoSCoW.</text>
+  </g></g>
+  <g transform="translate(885 418)"><g class="entra t4">
+    <rect class="tile" width="255" height="96" rx="14"/>
+    <rect class="barra" width="5" height="96" rx="2.5"/>
+    <text class="tit" x="22" y="34">Contratos de diseño</text>
+    <text class="code" x="22" y="60">boton.contract.yaml</text>
+    <text class="txt" x="22" y="79">Validado contra tus tokens.</text>
+  </g></g>
+  <g transform="translate(60 530)"><g class="entra t5">
+    <rect class="tile" width="255" height="96" rx="14"/>
+    <rect class="barra" width="5" height="96" rx="2.5"/>
+    <text class="tit" x="22" y="34">Designsystem-creator</text>
+    <text class="txt" x="22" y="60">Un sistema de diseño nuevo</text>
+    <text class="txt" x="22" y="79">desde una plantilla real.</text>
+  </g></g>
+  <g transform="translate(335 530)"><g class="entra t6">
+    <rect class="tile" width="255" height="96" rx="14"/>
+    <rect class="barra" width="5" height="96" rx="2.5"/>
+    <text class="tit" x="22" y="34">Heuristy</text>
+    <text class="txt" x="22" y="60">10 heurísticas de Nielsen</text>
+    <text class="txt" x="22" y="79">más banca y retail.</text>
+  </g></g>
+  <g transform="translate(610 530)"><g class="entra t7">
+    <rect class="tile" width="255" height="96" rx="14"/>
+    <rect class="barra" width="5" height="96" rx="2.5"/>
+    <text class="tit" x="22" y="34">Proto-persona Top Tier</text>
+    <text class="txt" x="22" y="60">Evalúa como un cliente</text>
+    <text class="txt" x="22" y="79">bancario de altos ingresos.</text>
+  </g></g>
+  <g transform="translate(885 530)"><g class="entra t8">
+    <rect class="tile" width="255" height="96" rx="14"/>
+    <rect class="barra" width="5" height="96" rx="2.5"/>
+    <text class="tit" x="22" y="34">Tognazzini</text>
+    <text class="txt" x="22" y="60">16 heurísticas aplicadas al</text>
+    <text class="txt" x="22" y="79">crédito de vivienda.</text>
+  </g></g>
+
+  <!-- Ciclo de cada tarea -->
+  <g transform="translate(60 664)"><g class="entra ce">
+    <rect width="1080" height="110" rx="16" fill="#010409" stroke="#30363D"/>
+    <text class="seccion" x="32" y="38" style="fill:#FDBA74">EN CADA TAREA</text>
+    <text class="ciclo resalta r1" x="32" y="76">Pides la tarea</text>
+    <path d="M166 71 H202" stroke="#F97316" stroke-width="2" fill="none" marker-end="url(#flecha)"/>
+    <text class="ciclo resalta r2" x="216" y="76">se activa la skill</text>
+    <path d="M366 71 H402" stroke="#F97316" stroke-width="2" fill="none" marker-end="url(#flecha)"/>
+    <text class="ciclo resalta r3" x="416" y="76">sigue su método</text>
+    <path d="M556 71 H592" stroke="#F97316" stroke-width="2" fill="none" marker-end="url(#flecha)"/>
+    <text class="ciclo resalta r4" x="606" y="76">entrega el informe</text>
+    <path d="M770 71 H806" stroke="#F97316" stroke-width="2" fill="none" marker-end="url(#flecha)"/>
+    <text class="ciclo resalta r5" x="820" y="76">tú decides qué sigue</text>
+    <line x1="32" y1="96" x2="1048" y2="96" stroke="#30363D" stroke-width="2" stroke-linecap="round"/>
+    <circle class="punto" r="5" fill="#F97316"/>
+  </g></g>
+</svg>

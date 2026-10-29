@@ -92,31 +92,55 @@ Cada skill opera en **dos modos** que se detectan automáticamente:
 
 ## Cómo instalarlos
 
-Este repositorio es **privado**. Para acceder necesitas estar invitado e iniciar sesión en GitHub.
+Este repositorio es **público**. Cada skill se instala **por separado**: antes de
+instalar, elige cuáles necesitas de esta lista.
 
-### Opción A — Leer directamente en GitHub (lo más simple)
-1. Abre `https://github.com/davidortiz-ops/KC-People-Center-Design-AI`
-2. Entra a `diseno-de-soluciones/` y haz clic en el archivo que necesites.
-3. GitHub lo muestra formateado. Usa el botón **"Copy raw file"** para copiar el contenido.
-4. Pégalo directamente en el chat de Claude (modo ID). No requiere instalación.
+| Skill | Nombre para instalar | Archivo para subir |
+|-------|----------------------|--------------------|
+| Accesibilidad WCAG | `accesibilidad-wcag` | [accesibilidad-wcag.skill](instaladores/accesibilidad-wcag.skill) |
+| Auditoría de Flujos | `auditoria-de-flujos` | [auditoria-de-flujos.skill](instaladores/auditoria-de-flujos.skill) |
+| Consultor Madurez DS | `consultor-madurez-design-systems` | [consultor-madurez-design-systems.skill](instaladores/consultor-madurez-design-systems.skill) |
+| Contratos de Diseño | `contratos-de-diseno` | [contratos-de-diseno.skill](instaladores/contratos-de-diseno.skill) |
+| Designsystem-creator | `designsystem-creator` | Solo por la Opción A (ver nota) |
+| Heuristy | `evaluacion-heuristica` | [evaluacion-heuristica.skill](instaladores/evaluacion-heuristica.skill) |
+| Proto-Persona Top Tier | `proto-persona-banca-top-tier` | [proto-persona-banca-top-tier.skill](instaladores/proto-persona-banca-top-tier.skill) |
+| Tognazzini | `tognazzini-creditos-vivienda` | [tognazzini-revision-heuristica-creditos-vivienda.skill](instaladores/tognazzini-revision-heuristica-creditos-vivienda.skill) |
 
-### Opción B — Descargar todo el repositorio
-1. En la página principal del repo, haz clic en **`<> Code`** → **"Download ZIP"**.
-2. Descomprime en tu computador.
-3. Para los skills planos: abre el `.md` y copia el contenido al chat.
-4. Para los skills estructurados: abre `SKILL.md` y copia el contenido al chat, o desde la terminal usa los scripts Python.
+### Opción A — Desde Claude Cowork o Claude Code (catálogo)
 
-### Opción C — Clonar con Git (para uso frecuente)
-```bash
-git clone https://github.com/davidortiz-ops/KC-People-Center-Design-AI.git
-cd KC-People-Center-Design-AI/diseno-de-soluciones
+El repositorio funciona como catálogo de plugins: lo agregas una vez y desde ahí
+eliges qué skills instalar.
+
+**En Claude Cowork:** en la sección de plugins, agrega un catálogo (marketplace)
+desde GitHub con la dirección `davidortiz-ops/diseno-de-soluciones`. Aparecen las
+8 skills como opciones separadas; instala solo las que elegiste.
+
+**En Claude Code:**
+
+```
+/plugin marketplace add davidortiz-ops/diseno-de-soluciones
+/plugin install accesibilidad-wcag --marketplace davidortiz-ops/diseno-de-soluciones
+/plugin install auditoria-de-flujos --marketplace davidortiz-ops/diseno-de-soluciones
+/plugin install consultor-madurez-design-systems --marketplace davidortiz-ops/diseno-de-soluciones
+/plugin install contratos-de-diseno --marketplace davidortiz-ops/diseno-de-soluciones
+/plugin install designsystem-creator --marketplace davidortiz-ops/diseno-de-soluciones
+/plugin install evaluacion-heuristica --marketplace davidortiz-ops/diseno-de-soluciones
+/plugin install proto-persona-banca-top-tier --marketplace davidortiz-ops/diseno-de-soluciones
+/plugin install tognazzini-creditos-vivienda --marketplace davidortiz-ops/diseno-de-soluciones
 ```
 
-### Opción D — Usar el visor web
-1. Desde la carpeta del repositorio, ejecuta: `python -m http.server 8000`
-2. Abre `http://localhost:8000/index.html` en el navegador.
-3. Filtra por el chapter **Diseño de Soluciones**.
-4. Haz clic en cualquier tarjeta para ver y copiar el contenido completo.
+Ejecuta solo las líneas `/plugin install` de las skills que elegiste. También
+puedes escribir `/plugin`, entrar al catálogo y marcarlas en la lista.
+
+### Opción B — Subir el archivo en la app de Claude (Claude.ai / Desktop)
+
+1. Descarga de la carpeta [`instaladores/`](instaladores/) el archivo `.skill` de cada skill que elegiste.
+2. En Claude, ve a **Configuración → Capacidades → Skills** y usa **Subir skill**.
+3. Sube un archivo por skill. Repite con cada una que quieras.
+
+> **Nota:** Designsystem-creator no tiene archivo `.skill` porque trae dentro una
+> plantilla con otras dos skills, y la app de Claude rechaza paquetes con más de
+> una. Instálala por la Opción A.
 
 ---
 
@@ -199,7 +223,8 @@ diseno-de-soluciones/
 │   ├── evals/evals.json                         # Pruebas de calidad
 │   └── plantilla/                               # Proyecto base que se clona tal cual (docs-site, scripts, CI, skills co-locadas)
 │
-├── consultor-madurez-design-systems.md          # Skill plano
+├── consultor-madurez-design-systems/            # Skill (archivo único en carpeta)
+│   └── SKILL.md
 ├── lineamientos-skills.md                       # Guía de estándares
 └── README.md                                    # Este archivo
 ```
@@ -225,7 +250,7 @@ diseno-de-soluciones/
 | Tipo | Cantidad |
 |------|:--------:|
 | Skills estructurados (carpeta) | 7 |
-| Skills planos (archivo único) | 1 |
+| Skills de archivo único (en carpeta) | 1 |
 | Guías | 1 |
 | **Total artefactos** | **9** |
 | Referencias técnicas | 32 |

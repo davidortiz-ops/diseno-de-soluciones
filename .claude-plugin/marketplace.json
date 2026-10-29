@@ -1,0 +1,67 @@
+{
+  "name": "diseno-de-soluciones",
+  "owner": {
+    "name": "People Center Design - Pragma"
+  },
+  "metadata": {
+    "description": "Skills del chapter de Diseño de Soluciones. Cada skill se instala por separado: elige solo las que necesites."
+  },
+  "plugins": [
+    {
+      "name": "accesibilidad-wcag",
+      "description": "Audita sitios web contra los 87 criterios WCAG 2.2 (A, AA, AAA), con normativa colombiana, reportes y declaración de conformidad.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./accesibilidad-wcag"]
+    },
+    {
+      "name": "auditoria-de-flujos",
+      "description": "Audita si un flujo diseñado responde a los dolores de la investigación de usuario y qué falta probar antes de entregar.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./auditoria-de-flujos"]
+    },
+    {
+      "name": "consultor-madurez-design-systems",
+      "description": "Diagnostica la madurez de un Design System (5 niveles) y su modelo de gestión y operación; entrega hoja de ruta MoSCoW.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./consultor-madurez-design-systems"]
+    },
+    {
+      "name": "contratos-de-diseno",
+      "description": "Convierte piezas de UI en contratos YAML validados contra los tokens del sistema de diseño, empaquetados como proyecto portable.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./contratos-de-diseno"]
+    },
+    {
+      "name": "designsystem-creator",
+      "description": "Arranca un sistema de diseño nuevo desde una plantilla real (docs-site, scripts, CI) y siembra tokens desde Figma o código existente.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./designsystem-creator"]
+    },
+    {
+      "name": "evaluacion-heuristica",
+      "description": "Heuristy: evaluación heurística con las 10 heurísticas de Nielsen más extensiones para banca y retail; score, priorización y roadmap.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./evaluacion-heuristica"]
+    },
+    {
+      "name": "proto-persona-banca-top-tier",
+      "description": "Evalúa experiencias digitales bancarias desde la perspectiva del cliente de altos ingresos (Top Tier); calcula TTES y behavioral insights.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./proto-persona-banca-top-tier"]
+    },
+    {
+      "name": "tognazzini-creditos-vivienda",
+      "description": "Evalúa la experiencia de solicitud de crédito de vivienda (digital y presencial) con las 16 heurísticas de Tognazzini.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./tognazzini-revision-heuristica-creditos-vivienda"]
+    }
+  ]
+}

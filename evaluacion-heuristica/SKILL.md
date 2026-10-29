@@ -13,25 +13,10 @@ description: >
   problemas de usabilidad, test heurístico, evaluar interfaz, revisión de
   experiencia de usuario, análisis de usabilidad bancaria, o compliance
   regulatorio en interfaces financieras.
-version: 2.0
-author: Pragma
-triggers:
-  - evaluación heurística
-  - heurísticas de Nielsen
-  - auditoría de usabilidad
-  - heuristy
-  - problemas de usabilidad
-  - test heurístico
-  - evaluar interfaz
-  - usabilidad banca
-  - usabilidad retail
-  - auditoría UX banca
-  - usabilidad banco digital
-  - usabilidad ecommerce
-  - revisión experiencia de usuario
-  - análisis de usabilidad
-  - compliance regulatorio interfaz
-  - accesibilidad web banca
+metadata:
+  version: "2.0"
+  author: Pragma
+  triggers: "evaluación heurística, heurísticas de Nielsen, auditoría de usabilidad, heuristy, problemas de usabilidad, test heurístico, evaluar interfaz, usabilidad banca, usabilidad retail, auditoría UX banca, usabilidad banco digital, usabilidad ecommerce, revisión experiencia de usuario, análisis de usabilidad, compliance regulatorio interfaz, accesibilidad web banca"
 ---
 
 # Heuristy v2.0 — Evaluación Heurística para Banca y Retail

@@ -2,8 +2,7 @@
 name: contratos-de-diseno
 description: >
   Guía a diseñadores de producto para convertir piezas de UI en contratos YAML
-  validados contra los tokens de SU sistema de diseño (el usuario sube su JSON
-  de tokens al inicio), mediante el flujo tokens → ficha → compilar → validar,
+  validados contra los tokens de SU sistema de diseño,
   y para estructurar todos los contratos como un proyecto portable que
   cualquier IA interprete y diseñe igual. Úsala siempre que el usuario
   mencione: "contrato", "contrato de componente", "ficha de pieza", "compilar

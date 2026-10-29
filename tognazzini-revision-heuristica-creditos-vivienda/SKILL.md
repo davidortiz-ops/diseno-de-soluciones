@@ -10,7 +10,7 @@ description: >
   genera un ranking de hallazgos, una puntuación general de experiencia y
   recomendaciones agrupadas en quick wins, medianas y estructurales. Úsalo
   cuando el usuario mencione: revisión heurística Tognazzini, créditos de
-  vivienda UX, evaluación Tognazzini, heurísticas de Tognazzini, auditoría UX
+  vivienda UX, evaluación Tognazzini, auditoría UX
   crédito vivienda, experiencia crédito vivienda, o auditoría de flujos
   Bizagi/Conectados/SAP para el proceso de vivienda. No lo uses para
   evaluaciones heurísticas genéricas de Nielsen (usa

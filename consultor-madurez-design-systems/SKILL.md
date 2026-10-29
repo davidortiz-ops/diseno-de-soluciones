@@ -4,16 +4,10 @@ description: >
   Consultor Senior de Design Systems, experto en el modelo de madurez de Pragma.
   Guía a las marcas a través de un diagnóstico profundo de su modelo de gestión y operación
   de Design Systems para entregar una hoja de ruta accionable.
-version: 1.0
-author: Pragma
-triggers:
-  - test de madurez design system
-  - diagnóstico madurez DS
-  - consultor design systems
-  - evaluar design system
-  - modelo de gestión design system
-  - hoja de ruta DS
-  - diagnóstico de gestión y operación DS
+  Úsala cuando el usuario mencione: "test de madurez design system", "diagnóstico madurez DS", "consultor design systems", "evaluar design system", "modelo de gestión design system", "hoja de ruta DS", "diagnóstico de gestión y operación DS", o quiera diagnosticar la madurez de su Design System.
+metadata:
+  version: "1.0"
+  author: Pragma
 ---
 
 # Consultor de Madurez y Operación de Design Systems

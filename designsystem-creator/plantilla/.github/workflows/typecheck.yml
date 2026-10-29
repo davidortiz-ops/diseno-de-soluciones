@@ -1,0 +1,16 @@
+name: Typecheck
+on:
+  pull_request:
+    paths: ["**/*.ts", "**/*.tsx", "package.json", "package-lock.json", "tsconfig.json", "vite.config.ts"]
+  push:
+    branches: [main]
+    paths: ["**/*.ts", "**/*.tsx", "package.json", "package-lock.json", "tsconfig.json", "vite.config.ts"]
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "22" }
+      - run: npm ci
+      - run: npx tsc --noEmit

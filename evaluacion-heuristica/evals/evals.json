@@ -1,0 +1,48 @@
+{
+  "skill_name": "heuristy-evaluacion-heuristica-nielsen",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Evalúa heurísticamente el flujo de login de la banca digital 'Mi Banco Colombia' (https://mibanco.com.co/login). Es una app web transaccional para usuarios colombianos. Usa las 10 heurísticas de Nielsen más las extensiones para banca. Tengo un alcance de flujo completo de login (ingreso de usuario, contraseña, autenticación biométrica, recuperación de contraseña). Los usuarios objetivo son adultos colombianos de 25-65 años con nivel técnico básico-medio. Aplica normativa colombiana (Ley 1328, Ley 1581, Circular 029). Necesito un reporte completo con score global, matriz de priorización y roadmap.",
+      "expected_output": "Reporte completo de evaluación heurística con score global, matriz de priorización y roadmap",
+      "files": [],
+      "expectations": [
+        "El reporte incluye un score global numérico (X/10)",
+        "Se evalúan las 14 heurísticas (H1-H10 + H11-H14 de banca)",
+        "Cada hallazgo tiene severidad 0-4 de Nielsen",
+        "Incluye matriz de priorización (Quick Wins, Major Projects, Fill-ins, Thankless)",
+        "Incluye roadmap de implementación por fases",
+        "Incluye checklist de normativa colombiana",
+        "Señala al menos 3 aspectos positivos de la interfaz"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Necesito una evaluación heurística del checkout de la tienda online 'ShopNow' (https://shopnow.com/checkout). Es un e-commerce que vende ropa y accesorios. Evalúa usando las 10 heurísticas de Nielsen más las extensiones para retail (H11-H14). El alcance es el flujo completo de checkout: carrito → datos de envío → pago → confirmación. Los usuarios son hombres y mujeres de 18-55 años. No aplica normativa especial. Dame el reporte completo con score, matriz y roadmap.",
+      "expected_output": "Reporte completo de evaluación heurística retail con score global, matriz de priorización y roadmap",
+      "files": [],
+      "expectations": [
+        "El reporte incluye un score global numérico (X/10)",
+        "Se evalúan las 14 heurísticas (H1-H10 + H11-H14 de retail)",
+        "Cada hallazgo tiene severidad 0-4 de Nielsen",
+        "Incluye matriz de priorización con los 4 cuadrantes",
+        "Incluye roadmap de implementación por fases",
+        "Las extensiones retail (H11-H14) están presentes y adaptadas al contexto"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Haz una evaluación heurística ejecutiva rápida (una página) del sitio web de la empresa 'TechCorp' (https://techcorp.com). Es un sitio corporativo genérico. Usa solo las 10 heurísticas de Nielsen. Dame el score global, top 5 problemas críticos y los quick wins. No necesito matriz ni roadmap detallados, solo una vista ejecutiva para presentar al equipo.",
+      "expected_output": "Reporte ejecutivo (una página) con score global, top problemas y quick wins",
+      "files": [],
+      "expectations": [
+        "El reporte es ejecutivo (una página o menos)",
+        "Incluye score global numérico (X/10)",
+        "Identifica el top 5 problemas críticos",
+        "Lista quick wins accionables",
+        "Usa las 10 heurísticas de Nielsen",
+        "Cada hallazgo incluye severidad 0-4"
+      ]
+    }
+  ]
+}

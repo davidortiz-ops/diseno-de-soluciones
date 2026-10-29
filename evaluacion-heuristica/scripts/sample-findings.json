@@ -1,0 +1,81 @@
+{
+  "context": {
+    "product": "Mi Banco App — Login",
+    "industry": "banca",
+    "scope": "flujo de login completo",
+    "evaluator": "Tu nombre aquí",
+    "date": "2026-07-01"
+  },
+  "findings": [
+    {
+      "id": 1,
+      "heuristic": "H1",
+      "title": "Sin feedback visual al hacer clic en 'Ingresar'",
+      "location": "Pantalla de login, botón 'Ingresar'",
+      "description": "El botón no muestra estado de carga ni cambio visual al hacer clic. El usuario no sabe si el clic funcionó o debe presionar de nuevo",
+      "severity": 3,
+      "recommendation": "Agregar spinner en el botón + 'Ingresando...' + deshabilitar clics múltiples",
+      "effort": "Pequeño"
+    },
+    {
+      "id": 2,
+      "heuristic": "H3",
+      "title": "Sin opción de 'Cancelar' durante autenticación biométrica",
+      "location": "Pantalla de huella digital",
+      "description": "Una vez que se solicita la huella, no hay botón visible para cancelar y volver a login con contraseña",
+      "severity": 3,
+      "recommendation": "Agregar enlace 'Usar contraseña en su lugar' visible durante el escaneo de huella",
+      "effort": "Pequeño"
+    },
+    {
+      "id": 3,
+      "heuristic": "H9",
+      "title": "Error genérico sin diagnóstico al fallar login",
+      "location": "Pantalla de login, mensaje de error",
+      "description": "Cuando falla el login muestra 'Error al iniciar sesión' sin distinguir entre usuario incorrecto, contraseña incorrecta o cuenta bloqueada",
+      "severity": 4,
+      "recommendation": "Mensajes específicos: 'Usuario no encontrado', 'Contraseña incorrecta', 'Cuenta bloqueada. Desbloquéala aquí'",
+      "effort": "Medio"
+    },
+    {
+      "id": 4,
+      "heuristic": "H11",
+      "title": "Sin indicador de conexión segura visible",
+      "location": "Pantalla de login",
+      "description": "No hay badge 'Conexión segura' ni candado visible que tranquilice al usuario antes de ingresar datos sensibles",
+      "severity": 2,
+      "recommendation": "Agregar badge 'Conexión segura' con icono de candado cerca del formulario de login",
+      "effort": "Pequeño"
+    },
+    {
+      "id": 5,
+      "heuristic": "H14",
+      "title": "Número de registro Superfinanciera no visible",
+      "location": "Footer de la página de login",
+      "description": "No se muestra el registro ante la Superintendencia Financiera de Colombia ni el respaldo Fogafín",
+      "severity": 2,
+      "recommendation": "Agregar en el footer: 'Vigilado por Superintendencia Financiera de Colombia' + logo Fogafín",
+      "effort": "Pequeño"
+    },
+    {
+      "id": 6,
+      "heuristic": "H5",
+      "title": "Sin validación en tiempo real del formato de usuario",
+      "location": "Campo de usuario en login",
+      "description": "El campo de usuario acepta cualquier formato y solo valida al enviar. El usuario descubre el error hasta después de llenar todo",
+      "severity": 2,
+      "recommendation": "Validar formato en tiempo real (email válido, sin espacios, longitud mínima) con indicación visual inmediata",
+      "effort": "Medio"
+    },
+    {
+      "id": 7,
+      "heuristic": "H6",
+      "title": "No muestra el nombre del titular al confirmar transferencia",
+      "location": "Paso de confirmación de transferencia",
+      "description": "Al confirmar una transferencia no se muestra el nombre del titular asociado al número de cuenta para verificar que es el destinatario correcto",
+      "severity": 4,
+      "recommendation": "Mostrar nombre del titular del destino antes de confirmar la transferencia",
+      "effort": "Medio"
+    }
+  ]
+}

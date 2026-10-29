@@ -1,0 +1,64 @@
+---
+import { marked } from "marked";
+import Base from "../layouts/Base.astro";
+import REGLAS_GLOBALES from "../../../REGLAS-GLOBALES.md?raw";
+import CLAUDE_MD from "../../../CLAUDE.md?raw";
+
+// Generado 100% desde REGLAS-GLOBALES.md y CLAUDE.md — cero prosa a mano.
+const htmlClaude = marked.parse(CLAUDE_MD);
+---
+
+<Base title="Fundamentos">
+  <h1>Fundamentos</h1>
+  <p class="fundamentos__intro">
+    Cómo funciona el sistema de contratos, la Regla de Oro y el flujo de trabajo — generado directamente desde{" "}
+    <code>CLAUDE.md</code> y <code>REGLAS-GLOBALES.md</code>, la fuente real que sigue cualquier IA que trabaje en
+    este repo.
+  </p>
+
+  <section class="fundamentos__doc">
+    <h2>CLAUDE.md — reglas para trabajar en el repo</h2>
+    <div class="markdown" set:html={htmlClaude} />
+  </section>
+
+  <section class="fundamentos__doc">
+    <h2>REGLAS-GLOBALES.md — reglas para pintar desde contratos</h2>
+    <div class="markdown markdown--pre"><pre>{REGLAS_GLOBALES}</pre></div>
+  </section>
+</Base>
+
+<style>
+  .fundamentos__intro {
+    max-width: 640px;
+    color: var(--text-secondary);
+    font-size: var(--text-body);
+    line-height: var(--lh-relaxed);
+  }
+  .markdown :global(h1),
+  .markdown :global(h2) {
+    font-size: var(--text-h4);
+    margin-top: var(--space-6);
+  }
+  .markdown :global(code) {
+    background: var(--surface-inset);
+    padding: 1px 5px;
+    border-radius: var(--radius-xs);
+    font-size: 0.9em;
+    overflow-wrap: anywhere;
+  }
+  .markdown :global(li) {
+    line-height: var(--lh-relaxed);
+    color: var(--text-secondary);
+  }
+  .markdown--pre pre {
+    white-space: pre-wrap;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: var(--lh-relaxed);
+    background: var(--surface-inset);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+  }
+</style>

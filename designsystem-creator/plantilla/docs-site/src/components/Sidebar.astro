@@ -1,0 +1,229 @@
+---
+import { todosLosContratos } from "../lib/contratos";
+
+const ruta = Astro.url.pathname;
+const contratos = todosLosContratos();
+const orden = ["atomos", "moleculas", "organismos", "templates"] as const;
+const etiquetaCarpeta: Record<string, string> = {
+  atomos: "Átomos",
+  moleculas: "Moléculas",
+  organismos: "Organismos",
+  templates: "Templates",
+};
+
+function normalizar(s: string): string {
+  return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+}
+
+const enlacesFijos = [
+  { href: "/fundamentos", etiqueta: "Fundamentos" },
+  { href: "/estilos", etiqueta: "Estilos" },
+];
+---
+
+<aside class="sidebar-envoltura" transition:persist transition:name="sidebar">
+  <nav class="sidebar" aria-label="Navegación de documentación">
+    <div class="sidebar__grupo">
+      {enlacesFijos.map((e) => (
+        <a class="sidebar__enlace" href={e.href} aria-current={ruta.startsWith(e.href) ? "page" : undefined}>
+          {e.etiqueta}
+        </a>
+      ))}
+    </div>
+
+    <div class="sidebar__grupo">
+      <div class="sidebar__cabecera-buscar">
+        <span class="sidebar__titulo">Componentes</span>
+      </div>
+      <input
+        type="search"
+        id="buscar-componentes"
+        class="sidebar__buscar"
+        placeholder="Buscar…"
+        aria-label="Buscar componentes por nombre"
+      />
+      <div id="lista-componentes">
+        {orden.map((carpeta) => {
+          const enGrupo = contratos.filter((c) => c.carpeta === carpeta);
+          if (enGrupo.length === 0) return null;
+          return (
+            <div class="sidebar__subgrupo" data-carpeta={carpeta}>
+              <span class="sidebar__subtitulo">{etiquetaCarpeta[carpeta]}</span>
+              {enGrupo.map((c) => (
+                <a
+                  class="sidebar__enlace sidebar__enlace--componente"
+                  href={`/componentes/${c.id}`}
+                  aria-current={ruta === `/componentes/${c.id}` ? "page" : undefined}
+                  data-buscar={normalizar(`${c.id} ${c.contrato.intencion}`)}
+                >
+                  {c.id}
+                </a>
+              ))}
+            </div>
+          );
+        })}
+      </div>
+      <p id="sidebar-sin-resultados" class="sidebar__vacio" hidden>Sin resultados.</p>
+    </div>
+  </nav>
+</aside>
+
+<script>
+  function normalizar(s: string): string {
+    return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  }
+
+  function iniciarBusquedaSidebar() {
+    const input = document.getElementById("buscar-componentes") as HTMLInputElement | null;
+    if (!input) return;
+    const enlaces = Array.from(document.querySelectorAll<HTMLAnchorElement>(".sidebar__enlace--componente"));
+    const subgrupos = Array.from(document.querySelectorAll<HTMLElement>(".sidebar__subgrupo"));
+    const vacio = document.getElementById("sidebar-sin-resultados");
+
+    function filtrar() {
+      const consulta = normalizar(input!.value.trim());
+      let visibles = 0;
+      for (const enlace of enlaces) {
+        const coincide = !consulta || (enlace.dataset.buscar ?? "").includes(consulta);
+        enlace.hidden = !coincide;
+        if (coincide) visibles++;
+      }
+      for (const grupo of subgrupos) {
+        grupo.hidden = grupo.querySelectorAll(".sidebar__enlace--componente:not([hidden])").length === 0;
+      }
+      if (vacio) vacio.hidden = visibles > 0;
+    }
+
+    input.addEventListener("input", filtrar);
+    filtrar();
+  }
+
+  // El sidebar persiste entre navegaciones (transition:persist, para
+  // conservar scroll y el filtro de búsqueda) — su aria-current se calculó
+  // una sola vez en el servidor para la primera página, así que hay que
+  // recalcularlo a mano en cada navegación o queda pegado en la primera.
+  function actualizarActivoSidebar() {
+    const ruta = window.location.pathname;
+    document.querySelectorAll<HTMLAnchorElement>(".sidebar__enlace").forEach((enlace) => {
+      const href = enlace.getAttribute("href") ?? "";
+      const esComponente = enlace.classList.contains("sidebar__enlace--componente");
+      const activo = esComponente ? ruta === href : ruta.startsWith(href);
+      if (activo) enlace.setAttribute("aria-current", "page");
+      else enlace.removeAttribute("aria-current");
+    });
+  }
+
+  document.addEventListener("astro:page-load", iniciarBusquedaSidebar);
+  document.addEventListener("astro:page-load", actualizarActivoSidebar);
+</script>
+
+<style>
+  .sidebar-envoltura {
+    align-self: start;
+    position: sticky;
+    top: 58px;
+    max-height: calc(100vh - 58px);
+    overflow-y: auto;
+    padding: var(--space-6) var(--space-4) var(--space-8) var(--space-4);
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .sidebar__grupo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .sidebar__titulo {
+    font-size: var(--text-2xs);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-caps);
+    color: var(--text-tertiary);
+    padding: var(--space-1) var(--space-3);
+  }
+
+  .sidebar__enlace {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: var(--fw-medium);
+    transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  }
+
+  .sidebar__enlace:hover {
+    background: var(--surface-inset);
+    color: var(--text-primary);
+  }
+
+  .sidebar__enlace:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
+
+  .sidebar__enlace[aria-current="page"] {
+    background: var(--accent-soft);
+    color: var(--accent-soft-text);
+    font-weight: var(--fw-semibold);
+  }
+
+  .sidebar__enlace--componente {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    padding-left: var(--space-4);
+  }
+
+  /* .sidebar__enlace ya fija su propio `display`, que si no se repite aquí
+     pisaría el `display: none` por defecto del atributo [hidden]. */
+  .sidebar__enlace--componente[hidden],
+  .sidebar__subgrupo[hidden] {
+    display: none;
+  }
+
+  .sidebar__buscar {
+    height: var(--control-h-sm);
+    margin: var(--space-1) 0 var(--space-2) 0;
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-default);
+    background: var(--surface-inset);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+  }
+
+  .sidebar__buscar:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
+
+  .sidebar__subgrupo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin-top: var(--space-3);
+  }
+
+  .sidebar__subtitulo {
+    padding: 0 var(--space-3);
+    font-size: 10px;
+    font-weight: var(--fw-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-caps);
+    color: var(--text-tertiary);
+  }
+
+  .sidebar__vacio {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+  }
+</style>

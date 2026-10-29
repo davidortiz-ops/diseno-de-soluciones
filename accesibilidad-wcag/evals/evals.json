@@ -1,0 +1,33 @@
+{
+  "skill_name": "accesibilidad-wcag",
+  "evals": [
+    {
+      "id": 1,
+      "name": "auditar-home-bancaria",
+      "prompt": "Necesito que audites la página de inicio de mi banco. La URL es https://www.bancopragma.com.co. Quiero saber si cumple WCAG AA. Dame el reporte técnico completo.",
+      "expected_output": "Reporte técnico (HTML inline o archivo) con metadatos de auditoría, score de cumplimiento por nivel, al menos 5 hallazgos documentados en formato estándar con ID, SC, severidad, prioridad, y código de remediación. Incluye matriz de priorización y declaración de conformidad.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "auditar-checkout-retail",
+      "prompt": "Audita la accesibilidad del checkout de mi tienda online: https://ejemplo-tienda.com/checkout. No entiendo de tecnología, solo dime si está bien y qué tengo que arreglar primero.",
+      "expected_output": "Reporte ejecutivo en lenguaje de negocio, con top 5 problemas críticos, impacto en usuarios, riesgo regulatorio (Estatuto del Consumidor colombiano), y próximos pasos priorizados por urgencia. Sin jerga técnica.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "contraste-sin-herramientas",
+      "prompt": "Revisa el contraste de estos colores de mi sitio: el texto principal es #666666 sobre fondo blanco #FFFFFF, los botones primarios son #4A90D9 sobre blanco, y los textos de error son #B42318 sobre #FEF3F2. Dime si cumplen AA y AAA.",
+      "expected_output": "Cálculo paso a paso del ratio para cada par usando la fórmula de contraste WCAG, comparación contra umbrales AA y AAA, tabla resumen con semáforo (✅/⚠️/❌), y recomendación de corrección para los que no cumplan.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "declaracion-conformidad",
+      "prompt": "Ya terminé la auditoría de mi sitio web. El sitio es www.miempresa.com, versión 3.2, auditado el 15 de junio de 2026. Audité 5 páginas: home, login, productos, checkout y contacto. El responsable soy yo, Juan Pérez. Dame la declaración de conformidad WCAG 2.2 nivel AA. Usa axe-core, NVDA y validación manual como herramientas.",
+      "expected_output": "Declaración de conformidad en formato estándar con fecha, título, URL, versión, responsable, nivel (AA marcado), alcance (5 URLs), lista de SC cumplidos, tecnologías usadas (HTML, CSS, JS, ARIA), herramientas de evaluación, dependencias de terceros, y notas. En Modo ID: inline. En Modo CLI: archivo .md guardado.",
+      "files": []
+    }
+  ]
+}

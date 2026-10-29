@@ -1,0 +1,13 @@
+# Secretos locales — nunca al repositorio
+.env
+
+# Config local de Claude Code (permisos por máquina, no del proyecto)
+.claude/settings.local.json
+
+# macOS
+.DS_Store
+
+# Dependencias / builds (por si en el futuro se agregan herramientas de build)
+node_modules/
+dist/
+build/

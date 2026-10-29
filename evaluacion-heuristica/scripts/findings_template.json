@@ -1,0 +1,31 @@
+{
+  "context": {
+    "product": "Nombre del producto o URL",
+    "industry": "banca | retail | otro",
+    "scope": "página | flujo | sitio completo",
+    "evaluator": "Tu nombre",
+    "date": "AAAA-MM-DD"
+  },
+  "findings": [
+    {
+      "id": 1,
+      "heuristic": "H1",
+      "title": "Título breve del hallazgo",
+      "location": "Dónde ocurre (pantalla, sección, paso)",
+      "description": "Descripción del problema observado y por qué es un problema de usabilidad",
+      "severity": 3,
+      "recommendation": "Qué hacer para solucionarlo",
+      "effort": "Pequeño | Medio | Grande"
+    },
+    {
+      "id": 2,
+      "heuristic": "H3",
+      "title": "Sin opción de cancelar durante autenticación biométrica",
+      "location": "Pantalla de login, paso de huella",
+      "description": "Una vez que se solicita la huella, no hay botón visible para cancelar y volver a login con contraseña",
+      "severity": 3,
+      "recommendation": "Agregar enlace 'Usar contraseña en su lugar' visible durante el escaneo de huella",
+      "effort": "Pequeño"
+    }
+  ]
+}

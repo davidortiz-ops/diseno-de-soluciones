@@ -1,0 +1,208 @@
+---
+import { Code } from "astro:components";
+
+interface Archivo {
+  nombre: string;
+  codigo: string;
+  lenguaje: string;
+}
+
+interface Props {
+  archivos: Archivo[];
+  etiquetaCopiar?: string;
+  abierto?: boolean;
+}
+
+const { archivos, etiquetaCopiar = "Copiar código", abierto = true } = Astro.props;
+const conTabs = archivos.length > 1;
+---
+
+<details class="bloque-codigo" open={abierto}>
+  <summary>
+    <span class="bloque-codigo__cabecera">
+      <svg class="bloque-codigo__flecha" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M5 3l6 5-6 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      {conTabs ? (
+        <span class="bloque-codigo__tabs" role="tablist">
+          {archivos.map((f, i) => (
+            <button type="button" class="bloque-codigo__tab" role="tab" data-tab-boton={i} aria-selected={i === 0 ? "true" : "false"}>
+              {f.nombre}
+            </button>
+          ))}
+        </span>
+      ) : (
+        <code class="bloque-codigo__titulo">{archivos[0].nombre}</code>
+      )}
+    </span>
+    <button type="button" class="bloque-codigo__copiar" data-copiar-boton>{etiquetaCopiar}</button>
+  </summary>
+  <div class="bloque-codigo__caja">
+    {archivos.map((f, i) => (
+      <div class="bloque-codigo__panel" role="tabpanel" data-tab-panel={i} hidden={i !== 0}>
+        <Code code={f.codigo} lang={f.lenguaje as any} themes={{ light: "github-light", dark: "github-dark" }} defaultColor={false} wrap />
+      </div>
+    ))}
+  </div>
+</details>
+
+<script>
+  function iniciarBloquesCodigo() {
+    document.querySelectorAll<HTMLElement>(".bloque-codigo").forEach((bloque) => {
+      const botonesTab = Array.from(bloque.querySelectorAll<HTMLButtonElement>("[data-tab-boton]"));
+      const paneles = Array.from(bloque.querySelectorAll<HTMLElement>("[data-tab-panel]"));
+      botonesTab.forEach((boton) => {
+        boton.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const objetivo = boton.dataset.tabBoton;
+          botonesTab.forEach((b) => b.setAttribute("aria-selected", String(b === boton)));
+          paneles.forEach((p) => {
+            p.hidden = p.dataset.tabPanel !== objetivo;
+          });
+        });
+      });
+    });
+
+    document.querySelectorAll<HTMLButtonElement>("[data-copiar-boton]").forEach((boton) => {
+      boton.addEventListener("click", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const bloque = boton.closest(".bloque-codigo");
+        const panelVisible = bloque?.querySelector<HTMLElement>("[data-tab-panel]:not([hidden])");
+        const codigo = (panelVisible ?? bloque)?.querySelector("pre code");
+        if (!codigo) return;
+        await navigator.clipboard.writeText(codigo.textContent ?? "");
+        const original = boton.textContent;
+        boton.textContent = "Copiado";
+        setTimeout(() => {
+          boton.textContent = original;
+        }, 1500);
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", iniciarBloquesCodigo);
+</script>
+
+<style>
+  .bloque-codigo + .bloque-codigo {
+    margin-top: var(--space-4);
+  }
+  .bloque-codigo summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-weight: var(--fw-semibold);
+    font-size: var(--text-sm);
+    list-style: none;
+  }
+  .bloque-codigo summary::-webkit-details-marker {
+    display: none;
+  }
+  .bloque-codigo summary:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
+  .bloque-codigo__cabecera {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+  .bloque-codigo__flecha {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    color: var(--text-tertiary);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  details[open] > summary .bloque-codigo__flecha {
+    transform: rotate(90deg);
+  }
+  .bloque-codigo__titulo {
+    font-family: var(--font-mono);
+  }
+
+  .bloque-codigo__tabs {
+    display: flex;
+    gap: var(--space-1);
+  }
+  .bloque-codigo__tab {
+    padding: var(--space-1) var(--space-2);
+    border: none;
+    border-radius: var(--radius-xs);
+    background: transparent;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  }
+  .bloque-codigo__tab:hover {
+    color: var(--text-primary);
+  }
+  .bloque-codigo__tab:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
+  .bloque-codigo__tab[aria-selected="true"] {
+    background: var(--surface-card);
+    color: var(--text-primary);
+  }
+
+  .bloque-codigo__copiar {
+    flex-shrink: 0;
+    height: var(--control-h-sm);
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-default);
+    background: var(--surface-inset);
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--fw-medium);
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-out);
+  }
+  .bloque-codigo__copiar:hover {
+    background: var(--surface-card-hover);
+  }
+  .bloque-codigo__copiar:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
+
+  .bloque-codigo__caja {
+    margin-top: var(--space-3);
+    max-height: 360px;
+    overflow-y: auto;
+    background: var(--surface-inset);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+  }
+  /* El componente <Code> (Shiki) no queda en el scope de este archivo —
+     hay que alcanzar su <pre>/<span> con :global. defaultColor={false}
+     deja el color de cada token en --shiki-light/--shiki-dark sin
+     aplicarlo: lo resolvemos nosotros según nuestro propio [data-theme],
+     igual que el resto del sitio (oscuro por defecto, claro explícito). */
+  .bloque-codigo__caja :global(pre.astro-code) {
+    margin: 0;
+    padding: var(--space-4);
+    overflow-x: auto;
+    font-size: var(--text-xs);
+    line-height: var(--lh-relaxed);
+    background: transparent !important;
+  }
+  .bloque-codigo__caja :global(pre.astro-code),
+  .bloque-codigo__caja :global(pre.astro-code span) {
+    color: var(--shiki-dark);
+  }
+  :global([data-theme="claro"]) .bloque-codigo__caja :global(pre.astro-code),
+  :global([data-theme="claro"]) .bloque-codigo__caja :global(pre.astro-code span) {
+    color: var(--shiki-light);
+  }
+</style>

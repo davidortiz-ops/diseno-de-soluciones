@@ -1,0 +1,54 @@
+{
+  "_meta": {
+    "nota": "EJEMPLO — reemplaza este archivo por tokens/tokens.json con los tokens REALES de tu sistema de diseño (extraídos de Figma, código o un export de Style Dictionary). No inventes valores: son solo un puñado de tokens de muestra para que scripts/generar_tokens_css.py y el validador tengan algo con qué correr antes de que cargues los reales.",
+    "tema_por_defecto": "oscuro ($value). El valor del tema claro va en $extensions.theme-light."
+  },
+  "primitivos_color": {
+    "blue": {
+      "500": { "$value": "#18A6E6", "$type": "color" }
+    },
+    "ink": {
+      "0": { "$value": "#FFFFFF", "$type": "color" },
+      "900": { "$value": "#0C1018", "$type": "color" }
+    }
+  },
+  "primitivos_escala": {
+    "space": {
+      "2": { "$value": "8px", "$type": "dimension" },
+      "4": { "$value": "16px", "$type": "dimension" },
+      "6": { "$value": "24px", "$type": "dimension" }
+    },
+    "radius": {
+      "sm": { "$value": "10px", "$type": "dimension" },
+      "pill": { "$value": "999px", "$type": "dimension" }
+    },
+    "control-h": {
+      "md": { "$value": "42px", "$type": "dimension" }
+    },
+    "text": {
+      "sm": { "$value": "13px", "$type": "dimension" },
+      "body": { "$value": "15px", "$type": "dimension" }
+    }
+  },
+  "semanticos": {
+    "surface-app": {
+      "$value": "var(--ink-900)",
+      "$type": "color",
+      "$extensions": { "theme-light": "#F4F7FB" }
+    },
+    "text-primary": {
+      "$value": "var(--ink-0)",
+      "$type": "color",
+      "$extensions": { "theme-light": "#15202E" }
+    },
+    "border-default": {
+      "$value": "rgba(255, 255, 255, 0.12)",
+      "$type": "color",
+      "$extensions": { "theme-light": "rgba(16, 28, 44, 0.12)" }
+    },
+    "accent": {
+      "$value": "var(--blue-500)",
+      "$type": "color"
+    }
+  }
+}

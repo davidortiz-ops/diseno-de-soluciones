@@ -1,0 +1,98 @@
+.taller {
+  display: grid;
+  grid-template-columns: minmax(220px, 260px) 1fr;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .taller {
+    grid-template-columns: 1fr;
+  }
+}
+
+.taller__controles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background: var(--surface-inset);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.taller__control {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.taller__control--booleano {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.taller__etiqueta {
+  font-size: var(--text-2xs);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-caps);
+}
+
+.taller__control--booleano .taller__etiqueta {
+  order: 2;
+  text-transform: none;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  letter-spacing: normal;
+}
+
+.taller__select,
+.taller__texto {
+  height: var(--control-h-sm);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-default);
+  background: var(--surface-card);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  transition: box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.taller__checkbox {
+  order: 1;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+.taller__select:focus-visible,
+.taller__texto:focus-visible,
+.taller__checkbox:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.taller__nota,
+.taller__vacio {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  line-height: var(--lh-relaxed);
+}
+
+.taller__lienzo {
+  min-height: 160px;
+  padding: var(--space-6);
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* el componente real puede tener un ancho mínimo propio (ej. una tarjeta de
+     380px) que no le corresponde a este canvas forzar a encoger — que
+     desborde con su propio scroll, no la página entera. */
+  overflow-x: auto;
+}

@@ -1,0 +1,72 @@
+{
+  "context": {
+    "product": "Crédito de Vivienda Convencional",
+    "credit_type": "convencional",
+    "channels": ["Conectados", "Bizagi", "Correo", "Asesor comercial", "Notaría", "TINSA"],
+    "scope": "Solicitud → Aprobación → Desembolso",
+    "evaluator": "Equipo UX Research",
+    "date": "2026-07-06"
+  },
+  "findings": [
+    {
+      "id": 1,
+      "heuristic": "Retroalimentación inmediata",
+      "description": "El usuario no recibe confirmación visual ni correo tras enviar la solicitud de crédito en Conectados.",
+      "evidence": "Captura del flujo final sin mensaje de éxito",
+      "severity": 3,
+      "difficulty": 1,
+      "explanation": "La falta de feedback genera incertidumbre sobre si el trámite fue enviado correctamente.",
+      "recommendation": "Incorporar mensaje de confirmación en pantalla y correo automático con número de radicado."
+    },
+    {
+      "id": 2,
+      "heuristic": "Claridad en el flujo temporal",
+      "description": "No hay visualización del progreso entre solicitud, aprobación y desembolso.",
+      "evidence": "Secuencia de pantallas de Conectados",
+      "severity": 2,
+      "difficulty": 2,
+      "explanation": "El usuario no sabe en qué etapa está su crédito ni cuánto falta para el desembolso.",
+      "recommendation": "Agregar barra de progreso y notificaciones por etapa en Bizagi y correo."
+    },
+    {
+      "id": 3,
+      "heuristic": "Compatibilidad entre canales",
+      "description": "El estado 'Escritura firmada' que confirma la notaría tarda hasta 5 días hábiles en reflejarse en Conectados.",
+      "evidence": "Comparación de fecha de firma notarial vs. fecha de actualización en Conectados, reportada por 4 usuarios en PQR",
+      "severity": 3,
+      "difficulty": 3,
+      "explanation": "El desfase entre el canal presencial (notaría) y el digital hace que el usuario piense que el proceso está detenido, generando llamadas repetidas a la línea de atención.",
+      "recommendation": "Integrar la actualización de estado notarial al sistema interno (Bizagi/SAP) o, si no es viable de inmediato, comunicar proactivamente el tiempo de sincronización esperado."
+    },
+    {
+      "id": 4,
+      "heuristic": "Prevención de errores",
+      "description": "El formulario de solicitud no valida el número de cuenta para desembolso antes de enviarlo a estudio.",
+      "evidence": "Prueba de formulario con número de cuenta inválido, el sistema lo acepta sin advertencia",
+      "severity": 2,
+      "difficulty": 0,
+      "explanation": "Un número de cuenta inválido solo se detecta en la etapa de desembolso, obligando a reprocesar la solicitud semanas después.",
+      "recommendation": "Agregar validación de formato y existencia de cuenta en el mismo formulario de solicitud."
+    },
+    {
+      "id": 5,
+      "heuristic": "Satisfacción emocional",
+      "description": "El correo de aprobación usa un tono administrativo ('Su solicitud No. 88234 ha sido procesada') sin reconocer el hito que representa para el usuario.",
+      "evidence": "Copy del correo de aprobación",
+      "severity": 1,
+      "difficulty": 0,
+      "explanation": "La aprobación de un crédito de vivienda es un momento emocionalmente significativo; un tono puramente administrativo desaprovecha la oportunidad de generar confianza y cierre positivo.",
+      "recommendation": "Ajustar el copy del correo de aprobación para reconocer el logro del usuario antes de los detalles administrativos."
+    },
+    {
+      "id": 6,
+      "heuristic": "Visibilidad del sistema",
+      "description": "El usuario no recibe notificación cuando TINSA completa el avalúo del inmueble.",
+      "evidence": "Paso a paso narrado por el asesor comercial: el avalúo se completa y solo se informa si el usuario llama a preguntar",
+      "severity": 2,
+      "difficulty": 2,
+      "explanation": "El avalúo es un hito intermedio crítico; su finalización silenciosa deja al usuario sin visibilidad de un tercio del proceso.",
+      "recommendation": "Configurar notificación automática (correo o Conectados) cuando TINSA reporte el avalúo completado."
+    }
+  ]
+}

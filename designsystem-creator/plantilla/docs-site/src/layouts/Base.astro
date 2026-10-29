@@ -1,0 +1,192 @@
+---
+import { ClientRouter } from "astro:transitions";
+import Sidebar from "../components/Sidebar.astro";
+import "../styles/site.css";
+
+const { title, sidebar = true, toc = true } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <script is:inline>
+      try {
+        if (localStorage.getItem("ds-tema") === "claro") {
+          document.documentElement.setAttribute("data-theme", "claro");
+        }
+      } catch {}
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title ? `${title} — Design System` : "Design System"}</title>
+    <ClientRouter />
+  </head>
+  <body class={sidebar || toc ? "shell shell--docs" : "shell shell--landing"}>
+    <header class="shell__header" transition:persist transition:name="header">
+      <a class="marca" href="/">Design System</a>
+      <button
+        type="button"
+        id="boton-tema"
+        class="interruptor-tema"
+        role="switch"
+        aria-checked="true"
+        aria-label="Cambiar a tema claro"
+      >
+        <svg
+          class="interruptor-tema__icono interruptor-tema__icono--sol"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg
+          class="interruptor-tema__icono interruptor-tema__icono--luna"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+        </svg>
+        <span class="interruptor-tema__perilla" aria-hidden="true"></span>
+      </button>
+    </header>
+    <div class="shell__cuerpo">
+      {sidebar && <Sidebar />}
+      <main class="app__contenido">
+        <slot />
+      </main>
+      {toc && (
+        <aside class="toc-flotante" id="toc-flotante" aria-label="Tabla de contenidos" hidden>
+          <p class="toc-flotante__titulo">En esta página</p>
+          <ul class="toc-flotante__lista" id="toc-lista"></ul>
+        </aside>
+      )}
+    </div>
+
+    <script>
+      function iniciarTema() {
+        const boton = document.getElementById("boton-tema");
+        if (!boton) return;
+        const CLAVE = "ds-tema";
+
+        function aplicar(tema: string) {
+          const esOscuro = tema !== "claro";
+          if (esOscuro) document.documentElement.removeAttribute("data-theme");
+          else document.documentElement.setAttribute("data-theme", "claro");
+          boton!.setAttribute("aria-checked", String(esOscuro));
+          boton!.setAttribute("aria-label", esOscuro ? "Cambiar a tema claro" : "Cambiar a tema oscuro");
+        }
+
+        const guardado = localStorage.getItem(CLAVE) ?? "oscuro";
+        aplicar(guardado);
+
+        // El header persiste entre navegaciones (transition:persist) — este
+        // mismo botón sigue vivo en el DOM, así que sin este guard cada
+        // astro:page-load le agregaría OTRO listener de click encima de los
+        // anteriores (el toggle empezaría a alternar cada vez más rápido).
+        if (boton.dataset.wired) return;
+        boton.dataset.wired = "true";
+
+        boton.addEventListener("click", () => {
+          const actual = document.documentElement.getAttribute("data-theme") === "claro" ? "claro" : "oscuro";
+          const siguiente = actual === "claro" ? "oscuro" : "claro";
+          localStorage.setItem(CLAVE, siguiente);
+          aplicar(siguiente);
+        });
+      }
+
+      let observadorTOC: IntersectionObserver | null = null;
+
+      function iniciarTOC() {
+        const aside = document.getElementById("toc-flotante");
+        const lista = document.getElementById("toc-lista");
+        const contenido = document.querySelector(".app__contenido");
+        if (!aside || !lista || !contenido) return;
+
+        observadorTOC?.disconnect();
+        lista.innerHTML = "";
+
+        const encabezados = Array.from(contenido.querySelectorAll("h2"));
+        if (encabezados.length === 0) {
+          aside.hidden = true;
+          return;
+        }
+        aside.hidden = false;
+
+        const enlaces: HTMLAnchorElement[] = [];
+        encabezados.forEach((h, i) => {
+          if (!h.id) {
+            h.id =
+              (h.textContent ?? `seccion-${i}`)
+                .normalize("NFD")
+                .replace(/[̀-ͯ]/g, "")
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/(^-|-$)/g, "") || `seccion-${i}`;
+          }
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.href = `#${h.id}`;
+          a.textContent = h.textContent;
+          a.className = "toc-flotante__enlace";
+          li.appendChild(a);
+          lista.appendChild(li);
+          enlaces.push(a);
+        });
+
+        observadorTOC = new IntersectionObserver(
+          (entradas) => {
+            for (const entrada of entradas) {
+              const idx = encabezados.indexOf(entrada.target as HTMLHeadingElement);
+              if (idx === -1) continue;
+              enlaces[idx].classList.toggle("toc-flotante__enlace--activo", entrada.isIntersecting);
+            }
+          },
+          { rootMargin: "-10% 0px -70% 0px" }
+        );
+        encabezados.forEach((h) => observadorTOC!.observe(h));
+      }
+
+      function iniciarRevelado() {
+        const secciones = document.querySelectorAll(".app__contenido > section");
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          secciones.forEach((s) => s.classList.add("en-vista"));
+          return;
+        }
+        const obs = new IntersectionObserver(
+          (entradas) => {
+            for (const entrada of entradas) {
+              if (entrada.isIntersecting) {
+                entrada.target.classList.add("en-vista");
+                obs.unobserve(entrada.target);
+              }
+            }
+          },
+          { threshold: 0.1 }
+        );
+        secciones.forEach((s) => obs.observe(s));
+      }
+
+      document.addEventListener("astro:page-load", iniciarTema);
+      document.addEventListener("astro:page-load", iniciarTOC);
+      document.addEventListener("astro:page-load", iniciarRevelado);
+    </script>
+  </body>
+</html>

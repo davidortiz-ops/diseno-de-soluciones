@@ -1,0 +1,348 @@
+---
+import Base from "../layouts/Base.astro";
+import { coloresPrimitivos, coloresSemanticos, escala } from "../lib/tokens";
+
+// TODO lo de esta página viene de tokens/tokens.json en build — nada a mano.
+const primitivos = coloresPrimitivos();
+const semanticos = coloresSemanticos();
+
+const gruposPrimitivos: Record<string, typeof primitivos> = {};
+for (const t of primitivos) {
+  const grupo = t.nombre.split("-")[0];
+  (gruposPrimitivos[grupo] ??= []).push(t);
+}
+
+const textos = escala("text").filter((t) => typeof t.valor === "number" || /^\d+px$/.test(String(t.valor)));
+const radios = escala("radius");
+const duraciones = escala("dur");
+const curvas = escala("ease");
+const espacios = escala("space");
+---
+
+<Base title="Estilos">
+  <h1>Estilos</h1>
+  <p class="estilos__intro">Generado en build desde <code>tokens/tokens.json</code>. Clic en un token para copiar su nombre.</p>
+
+  <section id="color" class="estilos__seccion">
+    <h2>Color</h2>
+    <h3>Primitivos</h3>
+    <div class="color__grupos">
+      {Object.entries(gruposPrimitivos).map(([grupo, tokens]) => (
+        <div class="color__grupo">
+          <span class="color__grupo-nombre">{grupo}</span>
+          <div class="color__fila">
+            {tokens.map((t) => (
+              <button class="swatch" data-copiar={t.nombre} title={`--${t.nombre}`} style={{ background: String(t.valor) }}>
+                <span class="swatch__nombre">{t.nombre}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <h3>Semánticos — oscuro vs. claro</h3>
+    <div class="color__tabla">
+      {semanticos.map((t) => (
+        <div class="color__fila-semantica" data-copiar={t.nombre}>
+          <span class="swatch swatch--sm" style={{ background: String(t.valor) }} title="oscuro (default)" />
+          <span class="swatch swatch--sm" style={{ background: String(t.claro ?? t.valor) }} title="claro" />
+          <code>{t.nombre}</code>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section id="tipografia" class="estilos__seccion">
+    <h2>Tipografía</h2>
+    <div class="tipografia__lista">
+      {textos.map((t) => (
+        <div class="tipografia__fila" data-copiar={t.nombre}>
+          <span class="tipografia__muestra" style={{ fontSize: `${t.valor}px` }}>Aa Design System</span>
+          <code>{t.nombre} · {String(t.valor)}px</code>
+        </div>
+      ))}
+    </div>
+    <div class="tipografia__mono">
+      <span style="font-family: var(--font-mono); font-size: var(--text-h4);">$32.000 — font-mono</span>
+    </div>
+  </section>
+
+  <section id="forma" class="estilos__seccion">
+    <h2>Forma</h2>
+    <div class="forma__fila">
+      {radios.map((t) => (
+        <div class="forma__item" data-copiar={t.nombre}>
+          <div class="forma__rect" style={{ borderRadius: typeof t.valor === "string" ? t.valor : `${t.valor}px` }} />
+          <code>{t.nombre}</code>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section id="movimiento" class="estilos__seccion">
+    <h2>Movimiento</h2>
+    <p class="estilos__nota">Cada curva de easing animada durante <code>dur-base</code> (200ms).</p>
+    <div class="movimiento__lista">
+      {curvas.map((c) => (
+        <div class="movimiento__fila" data-copiar={c.nombre}>
+          <code class="movimiento__etiqueta">{c.nombre}</code>
+          <div class="movimiento__pista">
+            <div class="movimiento__punto" style={{ animationTimingFunction: String(c.valor) }} />
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="movimiento__duraciones">
+      {duraciones.map((d) => (
+        <span class="pastilla" data-copiar={d.nombre}>{d.nombre} · {String(d.valor)}</span>
+      ))}
+    </div>
+  </section>
+
+  <section id="espaciado" class="estilos__seccion">
+    <h2>Espaciado</h2>
+    <div class="espaciado__lista">
+      {espacios.map((e) => (
+        <div class="espaciado__fila" data-copiar={e.nombre}>
+          <code>{e.nombre}</code>
+          <div class="espaciado__barra" style={{ width: typeof e.valor === "string" ? e.valor : `${e.valor}px` }} />
+          <span>{String(e.valor)}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</Base>
+
+<script>
+  const toast = document.getElementById("toast")!;
+  let timeoutId: number | undefined;
+
+  document.addEventListener("click", (e) => {
+    const el = (e.target as HTMLElement).closest("[data-copiar]");
+    if (!el) return;
+    const nombre = el.getAttribute("data-copiar")!;
+    navigator.clipboard.writeText(`--${nombre}`);
+    toast.textContent = `Copiado: --${nombre}`;
+    toast.classList.add("toast--visible");
+    clearTimeout(timeoutId);
+    timeoutId = window.setTimeout(() => toast.classList.remove("toast--visible"), 1500);
+  });
+</script>
+
+<style>
+  .estilos__intro {
+    color: var(--text-secondary);
+  }
+  .estilos__nota {
+    color: var(--text-tertiary);
+    font-size: var(--text-sm);
+  }
+
+  .color__grupos {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .color__grupo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .color__grupo-nombre {
+    width: 60px;
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+  }
+  .color__fila {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .swatch {
+    width: 72px;
+    height: 52px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-subtle);
+    cursor: pointer;
+    display: flex;
+    align-items: flex-end;
+    padding: 4px;
+  }
+  .swatch__nombre {
+    font-size: 9px;
+    font-family: var(--font-mono);
+    background: rgba(0, 0, 0, 0.45);
+    color: white;
+    padding: 1px 3px;
+    border-radius: 3px;
+  }
+  .swatch--sm {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--border-subtle);
+  }
+  .color__tabla {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .color__fila-semantica {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+    padding: var(--space-1) 0;
+  }
+
+  .tipografia__lista {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .tipografia__fila {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: var(--space-2);
+  }
+  .tipografia__muestra {
+    font-family: var(--font-body);
+  }
+  .tipografia__fila code {
+    color: var(--text-tertiary);
+    font-size: var(--text-xs);
+    white-space: nowrap;
+  }
+  .tipografia__mono {
+    margin-top: var(--space-4);
+  }
+
+  .forma__fila {
+    display: flex;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+  }
+  .forma__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+  }
+  .forma__rect {
+    width: 64px;
+    height: 64px;
+    background: var(--accent-soft);
+    border: 2px solid var(--accent);
+  }
+
+  .movimiento__lista {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .movimiento__fila {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    cursor: pointer;
+  }
+  .movimiento__etiqueta {
+    width: 90px;
+    color: var(--text-tertiary);
+    font-size: var(--text-xs);
+  }
+  .movimiento__pista {
+    flex: 1;
+    min-width: 0;
+    max-width: 300px;
+    height: 24px;
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-inset);
+    border-radius: var(--radius-pill);
+  }
+  .movimiento__punto {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: mover-punto 2s infinite alternate;
+  }
+  @keyframes mover-punto {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(300px - 24px));
+    }
+  }
+  .movimiento__duraciones {
+    display: flex;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+  .pastilla {
+    padding: 2px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--surface-inset);
+    border: 1px solid var(--border-default);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+
+  .espaciado__lista {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .espaciado__fila {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    cursor: pointer;
+  }
+  .espaciado__fila code {
+    width: 80px;
+    color: var(--text-tertiary);
+    font-size: var(--text-xs);
+  }
+  .espaciado__barra {
+    height: 14px;
+    background: var(--accent);
+    border-radius: var(--radius-xs);
+  }
+
+  .toast {
+    position: fixed;
+    bottom: var(--space-6);
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-default);
+    color: var(--text-primary);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-sm);
+    opacity: 0;
+    transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+    pointer-events: none;
+  }
+  .toast--visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>

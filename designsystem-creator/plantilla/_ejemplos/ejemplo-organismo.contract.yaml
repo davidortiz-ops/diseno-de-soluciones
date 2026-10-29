@@ -1,0 +1,49 @@
+# EJEMPLO — no es un componente activo de ningún proyecto real.
+# Sirve solo de referencia de FORMATO para un contrato de tipo ORGANISMO
+# (composición vía usa:, Regla de Oro: nunca recrear una pieza contratada).
+# Bórralo o ignóralo una vez tengas tus propios organismos en organismos/.
+
+component_id: tarjeta-generica
+intencion: "Mostrar un elemento con su estado y una acción principal"
+tipo: organismo
+
+usa:
+  - atomo: etiqueta
+    rol: estado
+    variantes: { color: acento }
+    datos: { texto: "e.estadoTexto" }
+    # Regla de Oro: se referencia el átomo por su component_id (ver
+    # ejemplo-atomo.contract.yaml), nunca se recrea su estructura aquí.
+  - atomo: boton
+    rol: accion-principal
+    datos: { etiqueta: "Ver más", accion: alSeleccionar }
+    # NOTA: "boton" es otra pieza de ejemplo, sin contrato propio en esta
+    # plantilla — así se marca una pieza referenciada que aún no existe.
+
+layout:
+  estructura: "display:flex; flex-direction:column; gap:space-4; padding:space-5"
+  fondo: surface-card
+  borde: border-subtle
+  radio: radius-lg
+
+datos:
+  - nombre: nombre
+    tipo: texto
+    obligatorio: true
+  - nombre: estadoTexto
+    tipo: texto
+    obligatorio: true
+
+estados:
+  - normal
+
+acciones:
+  - nombre: alSeleccionar
+    dispara: onclick
+    cuesta_dinero: false
+    proteccion: ninguna
+
+guardrails:
+  - accesibilidad
+
+medir: []

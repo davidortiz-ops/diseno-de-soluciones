@@ -1,0 +1,48 @@
+{
+  "skill_name": "designsystem-creator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Quiero montar un sistema de diseño nuevo para el proyecto en esta carpeta. Aquí tienes el ZIP del código actual: tiene una carpeta components/ con Button.tsx, Input.tsx, Card.tsx (que compone Button e Input adentro) y un archivo tokens.css con las variables reales de color, tipografía y espaciado.",
+      "expected_output": "Declara la Fase 0 (fuente = código existente) y pide confirmación, scaffoldea toda plantilla/ tal cual sin sobrescribir nada del destino sin avisar, extrae los tokens reales de tokens.css hacia tokens/tokens.json manteniendo la forma W3C sin inventar categorías, corre generar_tokens_css.py, y siembra átomos (Button, Input) antes que la molécula/organismo Card, cada uno con una FICHA parcial con # PENDIENTE en lo que el código no revela (estados, acciones, datos)",
+      "files": ["proyecto-actual.zip"],
+      "expectations": [
+        "Declara explícitamente cuál de las tres fuentes de la Fase 0 aplica antes de scaffoldear",
+        "Copia plantilla/ completa y avisa antes de sobrescribir cualquier archivo que ya exista en el destino",
+        "Los tokens en tokens/tokens.json son los valores reales de tokens.css, no inventados ni 'mejorados'",
+        "Siembra Button e Input (átomos) antes que Card (molécula/organismo), nunca al revés",
+        "La ficha de Card usa 'usa:' para referenciar Button e Input en vez de recrearlos",
+        "Cada ficha sembrada marca con # PENDIENTE los estados, acciones y datos que el código no muestra explícitamente, sin inventarlos",
+        "El reporte final de la Fase 4 corre validar_contratos.py y lista qué se scaffoldeó, qué tokens se cargaron y qué queda pendiente en cada ficha"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Tengo un Figma conectado por MCP con el archivo de nuestro design system, pero no está ordenado por átomos/moléculas/organismos: son frames sueltos con nombres como 'Botón', 'Grupo botones', 'Card producto' y 'Header dashboard', sin ninguna jerarquía clara ni convención de nombres. Móntame el sistema de diseño con lo que encuentres ahí.",
+      "expected_output": "Declara Figma como fuente en Fase 0, extrae variables como tokens reales, y ANTES de crear cualquier carpeta en atomos/moleculas/organismos/templates presenta un mapa de clasificación propuesto (pieza → nivel propuesto + razón + dudas) explicando que el nombre del frame no es fuente confiable y que el comportamiento no visible en Figma se marca como duda en vez de asumirse, esperando confirmación humana antes de sembrar nada",
+      "files": [],
+      "expectations": [
+        "No crea ninguna carpeta en atomos/moleculas/organismos/templates antes de presentar el mapa de clasificación propuesto",
+        "Advierte explícitamente que el nombre del frame ('Botón', 'Card producto') no es fuente confiable para el nivel",
+        "Señala como duda abierta cualquier pieza cuyo nivel dependa de comportamiento que Figma no muestra (por ejemplo si 'Grupo botones' es molécula u organismo), en vez de asumirlo",
+        "Ofrece _sin-clasificar/ como destino para piezas que no se puedan ubicar con confianza, en vez de forzarlas a un nivel",
+        "Espera confirmación explícita del humano sobre el mapa antes de sembrar carpetas o fichas",
+        "El reporte final declara cualquier pieza en _sin-clasificar/ como pendiente de decisión humana, no como error"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Necesito arrancar un sistema de diseño desde cero para un proyecto nuevo. No tengo Figma conectado todavía ni código existente que migrar, solo quiero la estructura lista para empezar a documentar componentes.",
+      "expected_output": "Declara Fase 0 = 'nada de fuente disponible', scaffoldea toda plantilla/ (incluyendo docs-site, scripts, CI y las skills contratos-de-diseno/criterio-diseno ya instaladas), deja tokens.json.ejemplo sin tocar advirtiendo que no sirve para producción, salta entera la Fase 3 de siembra dejando atomos/moleculas/organismos/templates vacíos, y entrega el reporte de Fase 4 indicando que el siguiente paso es usar contratos-de-diseno para el primer componente",
+      "files": [],
+      "expectations": [
+        "Declara explícitamente que ninguna de las fuentes de Figma o código aplica antes de scaffoldear",
+        "Copia plantilla/ completa, incluyendo contratos-de-diseno y criterio-diseno ya instaladas dentro del proyecto",
+        "No renombra ni edita tokens/tokens.json.ejemplo, y advierte en el reporte que no es apto para producción",
+        "Salta explícitamente la Fase 3 completa (no intenta sembrar componentes inventados)",
+        "atomos/, moleculas/, organismos/ y templates/ quedan vacíos (solo .gitkeep) al terminar",
+        "El reporte final indica que el siguiente paso es cargar tokens reales y usar el flujo ficha → compilar → validar de contratos-de-diseno, ya instalada, sin pedir instalarla de nuevo"
+      ]
+    }
+  ]
+}

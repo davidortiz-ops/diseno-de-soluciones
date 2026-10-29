@@ -1,0 +1,35 @@
+# EJEMPLO — no es un componente activo de ningún proyecto real.
+# Sirve solo de referencia de FORMATO para un contrato de tipo ATOMO.
+# Bórralo o ignóralo una vez tengas tus propios átomos en atomos/.
+
+component_id: etiqueta
+intencion: "Marcar un estado o categoría corta junto a otro contenido"
+tipo: atomo
+
+variantes:
+  - eje: color
+    significa: "¿qué acento usa el fondo y el texto?"
+    opciones: [neutral, acento]
+    por_defecto: neutral
+
+datos:
+  - nombre: texto
+    tipo: texto
+    obligatorio: true
+
+estados:
+  - normal
+
+acciones: []
+
+# Cada token de abajo es de EJEMPLO — reemplázalo por nombres reales que
+# existan en tu propio tokens/tokens.json.
+tokens_que_usa:
+  fondo: surface-inset
+  texto: text-primary
+  radio: radius-pill
+
+guardrails:
+  - accesibilidad
+
+medir: []

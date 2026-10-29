@@ -1,0 +1,44 @@
+{
+  "skill_name": "proto-persona-banca-top-tier",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Actúa como cliente bancario Top Tier y evalúa el flujo de transferencia internacional de https://demo-banca-ejemplo.com/transferencias. Necesito saber si cumple con mis expectativas de eficiencia, seguridad y preparación internacional. Dame el TTES y los hallazgos críticos.",
+      "expected_output": "Reporte de evaluación desde la perspectiva del cliente Top Tier con TTES, hallazgos por dimensión y severidad, y recomendaciones priorizadas.",
+      "files": [],
+      "expectations": [
+        "Responde en primera persona como cliente Top Tier",
+        "Incluye TTES (Top Tier Experience Score) numérico",
+        "Evalúa al menos 3 de los 6 criterios definidos",
+        "Incluye al menos un hallazgo con severidad Crítico o Alto",
+        "Usa frases textuales representativas del persona"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Ejecuta el skill de Heuristy sobre el login de https://demo-banca-ejemplo.com/login y luego reinterpreta cada hallazgo desde mi perspectiva como cliente Top Tier. Dame los hallazgos que me afectan como usuario premium y cuáles me harían considerar otro banco.",
+      "expected_output": "Evaluación combinada con hallazgos del skill base reinterpretados desde la perspectiva del cliente Top Tier, con severidad ajustada y priorización desde el segmento premium.",
+      "files": [],
+      "expectations": [
+        "Reconoce que debe integrar Heuristy con la proto-persona",
+        "Reinterpreta al menos 3 hallazgos desde la perspectiva del cliente Top Tier",
+        "Ajusta la severidad de al menos un hallazgo respecto a la evaluación base",
+        "Identifica al menos un hallazgo que haría considerar otro banco",
+        "Incluye el TTES ajustado desde la perspectiva del persona"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Necesito behavioral insights sobre cómo un cliente de altos ingresos usaría la sección de wealth management de un banco digital. ¿Qué espera? ¿Qué le genera confianza? ¿Qué lo haría abandonar el proceso? Dame un análisis de comportamientos y motivaciones de este segmento.",
+      "expected_output": "Análisis de comportamientos, motivaciones y puntos de fricción del segmento Top Tier en el contexto de wealth management digital, con recomendaciones de diseño basadas en el perfil.",
+      "files": [],
+      "expectations": [
+        "Responde desde la perspectiva del segmento Top Tier",
+        "Describe al menos 3 comportamientos esperados del segmento",
+        "Identifica al menos 2 factores que generan confianza",
+        "Identifica al menos 2 factores que generarían abandono",
+        "Incluye frases textuales representativas del persona"
+      ]
+    }
+  ]
+}

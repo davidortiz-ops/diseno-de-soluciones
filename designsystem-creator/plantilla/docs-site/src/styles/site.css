@@ -1,0 +1,287 @@
+@import "../../../src/estilos/tokens.css";
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--surface-app);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+a {
+  color: var(--text-link);
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+}
+
+/* ===== Estructura de la app (header + sidebar + contenido + TOC) ===== */
+
+.shell {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+.shell__header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 58px;
+  padding: 0 var(--space-6);
+  background: var(--surface-base);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.marca {
+  font-weight: var(--fw-bold);
+  font-size: var(--text-body);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.interruptor-tema {
+  position: relative;
+  flex-shrink: 0;
+  width: 52px;
+  height: 28px;
+  padding: 0;
+  border-radius: var(--radius-pill);
+  background: var(--surface-inset);
+  border: 1px solid var(--border-default);
+  cursor: pointer;
+}
+
+.interruptor-tema:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.interruptor-tema__icono {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  transition: color var(--dur-base) var(--ease-out);
+}
+
+.interruptor-tema__icono--sol {
+  left: 6px;
+}
+
+.interruptor-tema__icono--luna {
+  right: 6px;
+}
+
+.interruptor-tema[aria-checked="true"] .interruptor-tema__icono--luna {
+  color: var(--text-primary);
+}
+
+.interruptor-tema[aria-checked="false"] .interruptor-tema__icono--sol {
+  color: var(--text-primary);
+}
+
+.interruptor-tema__perilla {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  /* gray-0 fijo (no una superficie semántica): el mismo token que usa el
+     átomo real atomos/toggle para su perilla — blanco en los dos temas,
+     para que destaque siempre sobre la pista oscura o clara. */
+  background: var(--gray-0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.interruptor-tema[aria-checked="true"] .interruptor-tema__perilla {
+  transform: translateX(26px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interruptor-tema__perilla,
+  .interruptor-tema__icono {
+    transition: none;
+  }
+}
+
+.shell__cuerpo {
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.shell--docs .shell__cuerpo {
+  grid-template-columns: 240px minmax(0, 1fr) 220px;
+  align-items: start;
+}
+
+.app__contenido {
+  /* width: 100% explícito (no solo max-width) — si el ancho queda "auto",
+     el margin: auto de abajo desactiva el stretch por defecto del item de
+     grid y lo hace calcular su ancho por contenido máximo, desbordando en
+     viewports angostos. Con width:100% el margin: auto solo centra el
+     remanente cuando max-width recorta. */
+  width: 100%;
+  min-width: 0;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--space-10) var(--space-6) var(--space-24);
+}
+
+.shell--landing .app__contenido {
+  max-width: 1040px;
+  padding: var(--space-8) var(--space-6) var(--space-24);
+}
+
+/* ===== Firma tipográfica de encabezados de sección ===== */
+
+.app__contenido section > h2 {
+  font-size: var(--text-xs);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-caps);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-5) 0;
+}
+
+.app__contenido section h3 {
+  font-size: var(--text-2xs);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-caps);
+  color: var(--text-tertiary);
+  margin: var(--space-6) 0 var(--space-3) 0;
+}
+
+.app__contenido > section:first-of-type {
+  margin-top: var(--space-8);
+}
+
+.app__contenido > section + section {
+  margin-top: var(--space-10);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Aparición de secciones al hacer scroll — respeta prefers-reduced-motion:
+   sin la media query, .en-vista no aplicaría y el contenido quedaría
+   invisible si el usuario tiene el motion reducido o JS falla. */
+@media (prefers-reduced-motion: no-preference) {
+  .app__contenido > section {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+  }
+  .app__contenido > section.en-vista {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ===== Tabla de contenidos flotante ===== */
+
+.toc-flotante {
+  align-self: start;
+  position: sticky;
+  top: calc(58px + var(--space-6));
+  max-height: calc(100vh - 58px - var(--space-6));
+  overflow-y: auto;
+  padding: var(--space-10) var(--space-6) var(--space-8) 0;
+}
+
+.toc-flotante__titulo {
+  font-size: var(--text-2xs);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-caps);
+  color: var(--text-tertiary);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.toc-flotante__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid var(--border-subtle);
+}
+
+.toc-flotante__enlace {
+  display: block;
+  padding: var(--space-1) 0 var(--space-1) var(--space-3);
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  color: var(--text-tertiary);
+  text-decoration: none;
+  font-size: var(--text-xs);
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+
+.toc-flotante__enlace:hover {
+  color: var(--text-primary);
+}
+
+.toc-flotante__enlace:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.toc-flotante__enlace--activo {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  font-weight: var(--fw-semibold);
+}
+
+@media (max-width: 1080px) {
+  .shell--docs .shell__cuerpo {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+  .toc-flotante {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .shell--docs .shell__cuerpo {
+    grid-template-columns: 1fr;
+  }
+  .sidebar-envoltura {
+    position: static;
+    max-height: none;
+    padding: var(--space-4) var(--space-6) 0;
+  }
+}
+
+.banner-pendiente {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-5);
+  background: rgba(242, 165, 22, 0.12);
+  border: 1px solid var(--amber-500);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+}

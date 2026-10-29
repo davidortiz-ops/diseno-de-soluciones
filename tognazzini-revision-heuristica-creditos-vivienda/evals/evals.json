@@ -1,0 +1,47 @@
+{
+  "skill_name": "tognazzini-revision-heuristica-creditos-vivienda",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Necesito una revisión heurística de Tognazzini del flujo digital de solicitud de crédito de vivienda convencional en Conectados y Bizagi. El alcance va desde que el usuario inicia la solicitud hasta que recibe la aprobación. Te comparto el paso a paso: 1) el usuario llena un formulario con sus datos y los del inmueble, 2) da clic en 'Enviar solicitud' y la pantalla vuelve al home sin ningún mensaje, 3) tres días después recibe un correo genérico diciendo 'Su solicitud No. 88234 ha sido procesada' sin indicar si fue aprobada, 4) para saber el estado real debe llamar a la línea de atención. Dame el reporte completo con tabla de hallazgos, Puntuación General y matriz de priorización.",
+      "expected_output": "Reporte completo de revisión heurística de Tognazzini con tabla de hallazgos (Gravedad, Dificultad, Promedio total), Puntuación General y matriz de priorización",
+      "files": [],
+      "expectations": [
+        "El reporte incluye una tabla de hallazgos con columnas de Gravedad (0-3) y Dificultad (0-3)",
+        "Cada hallazgo tiene un Promedio total calculado como (Gravedad + Dificultad) / 2",
+        "Los hallazgos están ordenados de mayor a menor Promedio total",
+        "Incluye una Puntuación General de experiencia (X/10)",
+        "Identifica un problema de Retroalimentación inmediata (falta de confirmación al enviar la solicitud)",
+        "Incluye matriz de priorización con quick wins, medianas y estructurales",
+        "Señala al menos 3 aspectos positivos del proceso"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Evalúa la experiencia completa de un crédito de vivienda especial (VIS, con subsidio), desde la solicitud hasta la escrituración. El proceso incluye: solicitud en Bizagi, gestión con un asesor comercial por WhatsApp, avalúo del inmueble por TINSA, aprobación del seguro con la aseguradora, y firma de escritura en notaría. Varios clientes se han quejado en PQR de que la escritura queda firmada en notaría pero en Conectados sigue apareciendo como 'en trámite' hasta por una semana. Necesito el reporte completo con énfasis en compatibilidad entre canales y con el checklist de normativa colombiana incluido (Ley 546, Ley 1328, Ley 1581).",
+      "expected_output": "Reporte completo con énfasis en heurísticas de compatibilidad entre canales y claridad del flujo temporal, incluyendo checklist normativo colombiano",
+      "files": [],
+      "expectations": [
+        "El reporte evalúa tanto canales digitales (Bizagi, Conectados) como no digitales (asesor, TINSA, aseguradora, notaría)",
+        "Identifica un hallazgo de Compatibilidad entre canales relacionado con el desfase entre la firma notarial y el estado en Conectados",
+        "El hallazgo de compatibilidad entre canales recibe tratamiento prioritario, consistente con ser una de las 5 heurísticas prioritarias",
+        "Incluye el checklist normativo colombiano (al menos Ley 546, Ley 1328 y Ley 1581)",
+        "Incluye roadmap de implementación organizado en fases",
+        "Distingue explícitamente Gravedad y Dificultad como dimensiones separadas para cada hallazgo"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Haz una evaluación heurística ejecutiva y rápida (una página) solo del paso de radicación inicial de la solicitud de crédito de vivienda en la app Conectados. No necesito el proceso completo ni el checklist normativo, solo quiero la Puntuación General, el top 3 de problemas más críticos y los quick wins para presentar en una reunión de 15 minutos.",
+      "expected_output": "Reporte ejecutivo (una página o menos) con Puntuación General, top 3 problemas críticos y quick wins",
+      "files": [],
+      "expectations": [
+        "El reporte es ejecutivo (una página o menos, sin roadmap detallado ni checklist normativo)",
+        "Incluye una Puntuación General numérica (X/10)",
+        "Identifica un top 3 (no más) de problemas críticos",
+        "Lista quick wins accionables y concretos",
+        "El alcance se limita al paso de radicación, sin extenderse a todo el proceso de crédito"
+      ]
+    }
+  ]
+}

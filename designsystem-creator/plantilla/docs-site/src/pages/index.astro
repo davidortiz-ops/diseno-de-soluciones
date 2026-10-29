@@ -1,0 +1,115 @@
+---
+import Base from "../layouts/Base.astro";
+import REGLAS_GLOBALES from "../../../REGLAS-GLOBALES.md?raw";
+
+// El nombre del sistema y el conteo de reglas se leen del propio repo, no
+// se escriben a mano.
+const nombreSistema = "Design System";
+const cantidadReglas = (REGLAS_GLOBALES.match(/^\d+\./gm) ?? []).length;
+---
+
+<Base title="Inicio" sidebar={false} toc={false}>
+  <section class="hero">
+    <h1>{nombreSistema}</h1>
+    <p class="hero__lead">
+      Fuente de verdad: los <code>*.contract.yaml</code> de este repo. Figma y el código de producción son
+      proyecciones derivadas — nunca al revés. Este sitio también es una proyección: se genera 100% desde los
+      contratos y <code>tokens/tokens.json</code> en cada build.
+    </p>
+    <div class="hero__accesos">
+      <a class="hero__tarjeta" href="/fundamentos">
+        <h2>Fundamentos</h2>
+        <p>Cómo funciona el sistema de contratos, la Regla de Oro y el flujo de trabajo ({cantidadReglas} reglas).</p>
+      </a>
+      <a class="hero__tarjeta" href="/estilos">
+        <h2>Estilos</h2>
+        <p>Color, tipografía, forma, movimiento y espaciado — generado en build desde tokens.json.</p>
+      </a>
+      <a class="hero__tarjeta" href="/componentes">
+        <h2>Componentes</h2>
+        <p>Una página por contrato: anatomía, especificaciones, estados vivos y guías.</p>
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-top: var(--space-12);
+  }
+  .hero h1 {
+    font-size: var(--text-display-lg);
+    font-weight: var(--fw-black);
+    letter-spacing: var(--ls-tight);
+    line-height: var(--lh-snug);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .hero__lead {
+    max-width: 640px;
+    color: var(--text-secondary);
+    font-size: var(--text-body-lg);
+    line-height: var(--lh-relaxed);
+  }
+  .hero__accesos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+  }
+  .hero__tarjeta {
+    display: block;
+    padding: var(--space-5);
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: transform var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out),
+      background var(--dur-base) var(--ease-out);
+  }
+  .hero__tarjeta:hover {
+    border-color: var(--border-strong);
+    background: var(--surface-card-hover);
+  }
+  .hero__tarjeta:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__tarjeta:hover {
+      transform: translateY(-2px);
+    }
+  }
+  .hero__tarjeta h2 {
+    margin: 0 0 var(--space-2) 0;
+    font-size: var(--text-h3);
+  }
+  .hero__tarjeta p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: var(--lh-default);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero {
+      animation: hero-entrada var(--dur-slow) var(--ease-out) both;
+    }
+    @keyframes hero-entrada {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
+
+  @media (max-width: 760px) {
+    .hero__accesos {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

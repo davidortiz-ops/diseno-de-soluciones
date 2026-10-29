@@ -1,0 +1,58 @@
+# Lee este archivo desde references/esqueleto.md como ejemplo canónico de organismo molde.
+# Contrato — Sección repetible (ORGANISMO · molde)
+# Fuente real: las secciones Condiciones / Tarifas / Beneficios comparten esta estructura.
+# Este organismo es un MOLDE: se usa 3 veces cambiando solo lo que entra por 'params'.
+
+component_id: seccion-repetible
+intencion: "Sección con encabezado numerado y una lista de filas que el usuario agrega o quita"
+tipo: organismo
+
+# ===== PARÁMETROS: lo único que cambia entre Condiciones, Tarifas y Beneficios =====
+params:
+  numero:           "número del paso (2, 3, 4)"
+  titulo:           "título de la sección"
+  color:            "acento del badge y del botón (accent | accent-2)"
+  etiqueta_agregar: "texto del botón (ej: 'Agregar condición')"
+  fila:             "QUÉ contrato de fila se repite (fila-condicion | fila-tarifa | fila-beneficio)"
+
+# ===== COMPOSICIÓN =====
+usa:
+  - atomo: badge                     # el cuadrito con el número del paso
+    variantes: { forma: cuadrado, color: "{color}" }
+    datos: { texto: "{numero}" }
+
+  - atomo: boton                     # el botón "Agregar X"
+    variantes: { estilo: suave, forma: pastilla }
+    datos: { etiqueta: "{etiqueta_agregar}", color: "{color}", accion: alAgregar }
+
+  - organismo: "{fila}"              # la fila indicada, repetida N veces
+    repetir_sobre: lista             # <- composición parametrizada: la fila es un parámetro
+
+layout:
+  # El encabezado es UN contenedor flex horizontal (copiado del código real):
+  encabezado:
+    contenedor: "display:flex; align-items:center; justify-content:space-between; gap:12px"
+    hijo_izquierdo: "grupo [ badge(número) + título ]  (display:flex; align-items:center; gap:10px)"
+    hijo_derecho:   "boton 'Agregar'"
+    # Con justify-content:space-between, el título queda a la izquierda y el botón
+    # a la derecha, EN LA MISMA LÍNEA. El botón NO va en su propia fila debajo.
+  filas: "contenedor aparte, DEBAJO del encabezado (display:flex; flex-direction:column; gap:10px)"
+
+datos:
+  - nombre: lista
+    tipo: lista
+    obligatorio: false               # puede empezar vacía
+
+estados:
+  - normal
+  - vacia                            # sin filas todavía -> invitar a agregar
+  # OJO: el prototipo hoy no muestra estado vacío; el contrato lo agrega.
+
+acciones:
+  - { nombre: alAgregar,   dispara: onAdd }
+  - { nombre: alQuitarFila, dispara: onRemove }   # la dispara cada fila hacia arriba
+
+guardrails:
+  - accesibilidad
+
+medir: []                            # la medición vive en la plantilla

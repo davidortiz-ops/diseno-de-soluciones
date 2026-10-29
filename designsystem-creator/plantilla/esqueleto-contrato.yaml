@@ -1,0 +1,68 @@
+# ESQUELETO DE CONTRATO — no es un componente activo.
+# Cópialo como punto de partida para un contrato nuevo (o deja que la skill
+# contratos-de-diseno lo compile por ti con el flujo ficha → compilar →
+# validar). Mismo esqueleto exacto que usa esa skill —
+# .claude/skills/contratos-de-diseno/references/esqueleto.md.
+#
+# Claves en este orden. Omite las que no apliquen: presentacion, modo,
+# solo_en, variantes, comun, estilos, params, usa, layout, acciones,
+# mensajes pueden faltar; el resto no.
+
+component_id:    # minúsculas-con-guiones, estable, único
+intencion:       # "una frase orientada al usuario"
+tipo:            # atomo | molecula | organismo | plantilla
+presentacion:    # solo plantillas, si aplica: drawer | pagina | modal
+modo:            # si la pieza tiene modos: [crear, editar] | solo-lectura
+solo_en:         # si solo aparece en un modo del padre: editar
+
+variantes:       # cada eje como objeto, con significado en lenguaje humano
+  - eje:              # nombre del eje
+    significa:        # "¿qué pregunta responde este eje?"
+    opciones: []       # [a, b, c]
+    por_defecto:       # una de las opciones
+
+comun:           # (átomos) lo que comparten TODAS las variantes, vía tokens
+estilos:         # (átomos) cómo se ve cada opción de la variante principal,
+                 # incluyendo su hover/estados si difieren; todo vía tokens
+
+params:          # (organismos MOLDE) lo único que cambia entre usos,
+                 # cada param con su explicación en lenguaje humano
+
+usa:             # molécula/organismo/plantilla: piezas por component_id, con:
+  - atomo:            # nivel: atomo | molecula | organismo | texto | bloque | grupo | tabla
+    rol:              # nombre del papel que juega aquí
+    variantes: {}      # qué variante de la pieza usa
+    datos: {}          # cableado de datos
+    celda: {}           # su lugar en la rejilla, si aplica
+    # NUNCA recrear una pieza que ya tiene contrato: referenciarla.
+
+layout:          # SIEMPRE ejecutable, nunca prosa suelta:
+  columnas:        # rejillas: anchos exactos, ej: "1fr 96px 1fr 40px"
+  gap:             # token de espacio
+  fondo:           # superficie vía token
+  borde:           # token
+  radio:           # token
+  # contenedores complejos: strings CSS ("display:flex; align-items:center; ...")
+  # y mapa de celdas comentado si hay rejilla
+
+datos:           # cada dato: nombre, tipo, obligatorio
+  - nombre:
+    tipo:
+    obligatorio:
+
+estados:         # UNO POR UNO, con comentario de origen si extraes de código:
+  - normal                       # YA EXISTE / FALTA
+  # Si recibe input: SIEMPRE error y deshabilitado.
+  # Si carga datos: SIEMPRE cargando y vacia.
+
+acciones:        # nombre, dispara, cuesta_dinero, proteccion
+  - nombre:
+    dispara:
+    cuesta_dinero: false
+    proteccion: ninguna
+
+mensajes:        # texto y tono; si el texto lo define el padre, decirlo
+tokens_que_usa:  # (átomos) cada parte visual -> token POR NOMBRE
+guardrails:
+  - accesibilidad
+medir: []        # [] es válido: el átomo no mide, mide el organismo/plantilla

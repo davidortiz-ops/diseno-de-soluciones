@@ -1,0 +1,20 @@
+REGLAS PARA PINTAR DESDE CONTRATOS (no romper ninguna):
+
+1. Usa SOLO tokens de tokens/tokens-extraidos.json. Nunca un color, tamaño o
+   tipografía a mano. APLICA los tokens a TODA superficie, fondo, borde, texto,
+   tipografía y radio. Ninguna superficie con estilos por defecto del navegador.
+2. Cumple cada contrato al pie de la letra: EXACTAMENTE sus estados, campos y
+   variantes. Ni más, ni menos.
+3. Respeta el layout y las 'celda' (fila/columna) de cada pieza. NO apiles ni
+   corras los campos.
+4. Regla de campo: todo campo mide 42px (control-h-md), texto 15px (text-body),
+   alineado a la IZQUIERDA. Solo cambian 'tipo' y 'fuente'.
+5. Regla de Oro: un organismo REUTILIZA sus piezas, no las recrea.
+6. Cada sección usa SU propia fila: Condiciones=fila-condicion,
+   Tarifas=fila-tarifa, Beneficios=fila-beneficio. No repitas la misma fila.
+7. El bote de eliminar (boton-icono destructivo) va GRIS y transparente en
+   reposo; el rojo SOLO en hover. El candado del campo bloqueado va gris
+   (text-tertiary), sin color de acento.
+8. Si una pieza no tiene contrato, márcala PENDIENTE (no la inventes).
+9. Entrega el resultado + un MANIFIESTO que liste, por nombre: los archivos que
+   leíste, los contratos usados, los tokens aplicados y las piezas pendientes.

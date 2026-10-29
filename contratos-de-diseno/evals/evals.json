@@ -1,0 +1,46 @@
+{
+  "skill_name": "contratos-de-diseno",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Te adjunto tokens.json de nuestro design system (colores, tipografía, espaciado y control-h-md/lg). Necesito el contrato de un botón primario que se usa para confirmar una transferencia: tiene texto, un ícono opcional a la izquierda, y debe deshabilitarse mientras la transferencia está en proceso.",
+      "expected_output": "Confirmación del resumen de tokens recibidos, entrevista breve con la ficha para completar lo que falta, y un contrato YAML del botón (átomo) con las claves del esqueleto en orden, estados error y deshabilitado incluidos, tokens asignados por nombre (nunca valores a mano), seguido de la validación de los 7 puntos con veredicto LISTO PARA GENERAR o CORREGIR",
+      "files": ["tokens.json"],
+      "expectations": [
+        "El modelo confirma o resume los tokens recibidos antes de compilar",
+        "Hace como máximo dos turnos de preguntas de la ficha, sin repetir datos ya dados",
+        "El YAML entregado usa exactamente las claves del esqueleto, en el orden definido",
+        "El átomo incluye los estados 'error' y 'deshabilitado' aunque no se hayan pedido explícitamente",
+        "Ningún valor de color, tamaño o tipografía aparece escrito a mano (todo es referencia a un token por nombre)",
+        "Se entrega la validación de los 7 puntos con veredicto PASA/FALLA explícito por punto",
+        "El veredicto final es LISTO PARA GENERAR o CORREGIR, nunca ambiguo"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Ya tienes nuestros tokens cargados de la sesión anterior. Quiero armar la página de 'Detalle de crédito hipotecario': un encabezado con el nombre del cliente y el estado del crédito, y luego tres secciones repetibles con la misma estructura de fila (Condiciones, Tarifas, Beneficios), cada una con su propio botón de eliminar. Al final necesito el paquete completo para pasárselo a otro equipo que usa ChatGPT.",
+      "expected_output": "Plan de contratación (árbol de piezas) confirmado con el usuario antes de compilar nada, contratación pieza por pieza de abajo hacia arriba reutilizando un organismo molde para las tres secciones repetibles en vez de recrearlo tres veces, y al final el paquete de proyecto (LEEME.md, harness.txt, tokens/, contracts/) listo para exportar",
+      "files": ["tokens.json"],
+      "expectations": [
+        "El modelo entra en modo descomposición: presenta el árbol/plan de piezas antes de compilar ningún contrato",
+        "Identifica que Condiciones, Tarifas y Beneficios comparten estructura y las modela como un organismo molde reutilizado con 'params', no como tres organismos distintos",
+        "Cada sección repetible referencia el mismo component_id en 'usa:' en vez de duplicar la definición",
+        "Al pedir el paquete, entrega la estructura de modo proyecto: LEEME.md, harness.txt copiado tal cual, tokens/tokens-extraidos.json y contracts/",
+        "El LEEME.md generado indica qué contratos están LISTOS y cuáles quedan PENDIENTES"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Valida este YAML de contrato que ya tenía escrito, todavía no te he pasado el JSON de tokens del sistema:\n\n```yaml\ncomponent_id: campo-monto\ntipo: atomo\nestados: [default, focus]\ntoken_fondo: \"#FFFFFF\"\n```",
+      "expected_output": "Validación rápida de los 7 puntos del checklist, marcando como FALLA la falta del estado 'error' y el uso de un valor de color a mano en vez de un token, y como PENDIENTE el punto de existencia de tokens porque el usuario no ha subido su JSON",
+      "files": [],
+      "expectations": [
+        "El modelo pide o menciona la ausencia del JSON de tokens de la sesión antes de dar el punto 4 por válido",
+        "Señala como FALLA que falta el estado 'deshabilitado' y/o 'error', obligatorios en un campo",
+        "Señala como FALLA el valor '#FFFFFF' escrito a mano en vez de un token por nombre",
+        "El punto 4 (existencia de tokens) queda como PENDIENTE, no como PASA ni FALLA, dado que no hay tokens cargados",
+        "La corrección se dirige a completar información (subir tokens, definir estados), no a que el modelo invente valores en silencio"
+      ]
+    }
+  ]
+}

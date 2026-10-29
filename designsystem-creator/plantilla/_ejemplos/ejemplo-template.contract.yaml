@@ -1,0 +1,44 @@
+# EJEMPLO — no es un componente activo de ningún proyecto real.
+# Sirve solo de referencia de FORMATO para un contrato de tipo PLANTILLA
+# (composición de organismos en una vista completa).
+# Bórralo o ignóralo una vez tengas tus propios templates en templates/.
+
+component_id: pagina-comparativa
+intencion: "Comparar varios elementos del mismo tipo en una sola pantalla"
+tipo: plantilla
+presentacion: pagina
+
+usa:
+  - organismo: tarjeta-generica
+    rol: opcion-1
+    datos: { elemento: "p.opcion1" }
+    celda: { columna: 1, fila: 1 }
+    # Regla de Oro: referencia tarjeta-generica (ver
+    # ejemplo-organismo.contract.yaml) por su component_id, no la recrea.
+  - organismo: tarjeta-generica
+    rol: opcion-2
+    datos: { elemento: "p.opcion2" }
+    celda: { columna: 2, fila: 1 }
+
+layout:
+  columnas: "1fr 1fr"
+  gap: space-6
+  estructura: "display:flex; flex-wrap:wrap; justify-content:center"
+
+datos:
+  - nombre: opcion1
+    tipo: "datos de tarjeta-generica"
+    obligatorio: true
+  - nombre: opcion2
+    tipo: "datos de tarjeta-generica"
+    obligatorio: true
+
+estados:
+  - normal
+
+acciones: []
+
+guardrails:
+  - accesibilidad
+
+medir: []

@@ -1,0 +1,69 @@
+# Contrato — Campo (átomo)
+# Compilado desde campo.ficha.md · fuente real: .lulo-native
+# Lo que dice "FALTA" no existe en el prototipo; el contrato lo obliga a existir.
+
+component_id: campo
+intencion: "Capturar un valor de texto o elegir una opción dentro de una fila de configuración"
+tipo: atomo
+
+# REGLAS FIJAS DE CAMPO (decididas por el líder, no son variantes):
+#   · Todo campo mide siempre md = control-h-md (42px).
+#   · Todo campo va alineado a la IZQUIERDA (consistencia).
+#   · Todo campo usa texto text-body (15px).
+# Por eso solo quedan DOS variantes independientes: tipo y fuente.
+variantes:
+  - eje: tipo
+    significa: "¿caja de texto, lista desplegable o selector de fecha?"
+    opciones: [texto, lista, fecha]  # texto = input · lista = select · fecha = input de fecha (dd/mm/aaaa)
+    por_defecto: texto
+  - eje: fuente
+    significa: "tipografía del contenido"
+    opciones: [body, mono]           # body = texto normal · mono = números/símbolos (font-mono)
+    por_defecto: body
+
+datos:
+  - nombre: valor
+    tipo: texto
+    obligatorio: true
+  - nombre: textoDeAyuda         # el "placeholder"
+    tipo: texto
+    obligatorio: false
+  - nombre: opciones             # solo si tipo = lista
+    tipo: lista
+    obligatorio: false
+
+estados:                         # se enumeran UNO POR UNO
+  - normal                       # YA EXISTE
+  - enfocado                     # YA EXISTE  (:focus -> borde border-focus + anillo focus-ring)
+  - vacio                        # YA EXISTE  (muestra textoDeAyuda en color text-tertiary)
+  - error                        # FALTA      (borde error + mensaje debajo)
+  - deshabilitado                # FALTA      (no editable, apariencia atenuada)
+
+acciones:
+  - nombre: alCambiar
+    dispara: onchange
+    cuesta_dinero: false
+    proteccion: ninguna
+
+mensajes:
+  error: "(el texto lo define la fila que usa el campo)"
+  tono: calmado
+
+# Qué token usa cada parte. El generador NO puede escribir colores ni tamaños a mano.
+tokens_que_usa:
+  fondo:           surface-inset
+  borde_normal:    border-default
+  borde_enfocado:  border-focus
+  anillo_foco:     focus-ring
+  texto:           text-primary
+  texto_ayuda:     text-tertiary
+  texto_error:     error          # <- decidir el token semantico de error (hoy vive como `required` = red-400 / #F4716A)
+  radio:           radius-sm      # 10px  (coincide con token ✓)
+  alto:            control-h-md   # 42px  SIEMPRE (sin variante de tamaño)
+  tam_texto:       text-body      # 15px  (alineado al token ✓)
+  alineacion:      izquierda      # SIEMPRE (sin variante de alineación)
+
+guardrails:
+  - accesibilidad
+
+medir: []                        # el atomo no mide; mide el organismo

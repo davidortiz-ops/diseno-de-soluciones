@@ -1,0 +1,40 @@
+{
+  "skill": "proto-persona-banca-top-tier",
+  "version": "1.0",
+  "evaluation": {
+    "title": "Nombre de la evaluación",
+    "url": "https://ejemplo.com/flujo-evaluado",
+    "product": "Producto financiero (cuenta corriente, tarjeta, crédito, inversiones, wealth management, transferencias internacionales)",
+    "channel": "Canal evaluado (web, móvil, app, atención al cliente, sucursal)",
+    "date": "2026-01-01",
+    "evaluator": "proto-persona-banca-top-tier"
+  },
+  "dimensions": {
+    "1": "Eficiencia y Respeto al Tiempo",
+    "2": "Exclusividad y Personalización",
+    "3": "Seguridad y Confianza",
+    "4": "Preparación Internacional",
+    "5": "Consistencia Omnicanal",
+    "6": "Experiencia Premium"
+  },
+  "severity": {
+    "0": "Ninguno — Cumple mis expectativas como cliente premium",
+    "1": "Bajo — Incomodidad menor, no afecta mi decisión",
+    "2": "Medio — Molesto, pero manejable con workaround",
+    "3": "Alto — Frustración mayor, llamaría a mi ejecutivo de cuenta",
+    "4": "Crítico — Me haría cambiarme de banco / abandonar el proceso"
+  },
+  "findings": [
+    {
+      "id": 1,
+      "title": "Título del hallazgo",
+      "description": "Descripción detallada del problema desde la perspectiva del cliente Top Tier",
+      "dimension": 1,
+      "severity": 3,
+      "persona_quote": "Frase textual representativa del persona sobre este hallazgo",
+      "impact": "Impacto en la experiencia del cliente Top Tier",
+      "recommendation": "Recomendación específica para resolver el hallazgo",
+      "cross_pattern": "Patrón transversal si aplica (opcional)"
+    }
+  ]
+}

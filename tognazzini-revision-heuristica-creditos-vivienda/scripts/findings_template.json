@@ -1,0 +1,22 @@
+{
+  "context": {
+    "product": "Nombre del proceso o producto evaluado",
+    "credit_type": "convencional | especial",
+    "channels": ["Conectados", "Bizagi", "SAP", "Correo", "Asesor comercial", "Notaría", "TINSA", "Aseguradora"],
+    "scope": "Ej. Solicitud → Aprobación → Desembolso → Postventa",
+    "evaluator": "Tu nombre",
+    "date": "AAAA-MM-DD"
+  },
+  "findings": [
+    {
+      "id": 1,
+      "heuristic": "Retroalimentación inmediata",
+      "description": "Descripción del problema observado",
+      "evidence": "Dónde se observó (captura, paso del flujo, testimonio)",
+      "severity": 3,
+      "difficulty": 1,
+      "explanation": "Por qué no se cumple la heurística",
+      "recommendation": "Qué hacer para resolverlo"
+    }
+  ]
+}

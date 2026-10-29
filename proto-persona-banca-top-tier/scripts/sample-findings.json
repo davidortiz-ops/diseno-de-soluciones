@@ -1,0 +1,91 @@
+{
+  "skill": "proto-persona-banca-top-tier",
+  "version": "1.0",
+  "evaluation": {
+    "title": "Evaluación de flujo de transferencia internacional - Banca Ejemplo",
+    "url": "https://demo-banca-ejemplo.com/transferencias",
+    "product": "Transferencias internacionales",
+    "channel": "Web",
+    "date": "2026-06-30",
+    "evaluator": "proto-persona-banca-top-tier"
+  },
+  "findings": [
+    {
+      "id": 1,
+      "title": "La transferencia internacional requiere 8 pasos y dura 15 minutos",
+      "description": "Como cliente Top Tier, necesito hacer transferencias internacionales de forma rápida. Ocho pasos y quince minutos es un proceso que debería tomar menos de tres. Tengo que llenar datos que el banco ya conoce de mí y confirmar múltiples veces la misma información.",
+      "dimension": 1,
+      "severity": 4,
+      "persona_quote": "Necesito resolver esto rápido, no tengo tiempo para ir a la oficina ni para pasar 15 minutos en una transferencia",
+      "impact": "El cliente Top Tier considera este nivel de fricción inaceptable. Su tiempo tiene alta valoración y espera eficiencia en operaciones cotidianas.",
+      "recommendation": "Reducir el flujo a máximo 3 pasos. Precargar datos del beneficiario frecuente. Implementar transferencias exprés con montos preautorizados.",
+      "cross_pattern": "friccion_momentos_verdad"
+    },
+    {
+      "id": 2,
+      "title": "Sin vista consolidada de patrimonio en múltiples monedas",
+      "description": "No puedo ver mi patrimonio total en USD, EUR y moneda local en una sola pantalla. Tengo que ir a secciones separadas para cada tipo de cuenta. Para mi perfil, que opero en varios países, esto es una limitación seria.",
+      "dimension": 4,
+      "severity": 3,
+      "persona_quote": "¿Qué alternativas tengo fuera del país? Necesito ver todo mi patrimonio en un solo lugar",
+      "impact": "El cliente Top Tier pierde visibilidad de su posición financiera global. Dificulta la toma de decisiones informadas sobre diversificación.",
+      "recommendation": "Implementar dashboard multimoneda con conversión en tiempo real y consolidación de cuentas locales e internacionales.",
+      "cross_pattern": "brecha_internacional"
+    },
+    {
+      "id": 3,
+      "title": "La autenticación OTP se envía al mismo dispositivo que uso para operar",
+      "description": "Recibo el código de seguridad en el mismo celular donde estoy haciendo la transferencia. Si alguien tiene acceso a mi teléfono, puede interceptar todo. Para el tamaño de patrimonio que manejo, esto es un riesgo que no estoy dispuesto a correr.",
+      "dimension": 3,
+      "severity": 4,
+      "persona_quote": "Busco algo seguro y estable para mi familia. Esto no me da ninguna tranquilidad",
+      "impact": "Riesgo de seguridad crítico. El cliente Top Tier prioriza la protección de su patrimonio. Puede llevarlo a cuestionar la confiabilidad del banco.",
+      "recommendation": "Implementar autenticación de dos factores con dispositivo separado (token físico, app de autenticación en segundo dispositivo, o notificación push con confirmación biométrica).",
+      "cross_pattern": "sobrecarga_seguridad"
+    },
+    {
+      "id": 4,
+      "title": "Las recomendaciones de productos son genéricas, no basadas en mi perfil",
+      "description": "El home banking me muestra ofertas estándar que no corresponden a mi perfil patrimonial. Me ofrecen productos masivos cuando lo que necesito son soluciones de wealth management y banca privada. Se siente como un banco genérico, no como mi banco.",
+      "dimension": 2,
+      "severity": 3,
+      "persona_quote": "Necesito una solución, no un trámite. Espero que mi banco me conozca",
+      "impact": "Percepción de trato genérico. El cliente Top Tier valora la personalización y puede interpretar esto como falta de interés en su segmento.",
+      "recommendation": "Segmentar la oferta por perfil patrimonial. Mostrar primero productos premium y de wealth management. Personalizar recomendaciones basadas en el historial y objetivos del cliente.",
+      "cross_pattern": "brecha_promesa_realidad"
+    },
+    {
+      "id": 5,
+      "title": "La interfaz del dashboard se siente lenta y poco fluida",
+      "description": "Los tiempos de carga son notorios, especialmente al consultar movimientos. Las transiciones no son suaves. Comparado con los bancos internacionales que uso, esto se siente anticuado. Para el segmento premium, la velocidad y fluidez deberían ser impecables.",
+      "dimension": 6,
+      "severity": 2,
+      "persona_quote": "Esto debería poder hacerlo online y de forma rápida. No es crítico, pero se nota",
+      "impact": "Percepción de calidad inferior. El cliente Top Tier compara constantemente con estándares internacionales.",
+      "recommendation": "Optimizar rendimiento del dashboard. Implementar carga progresiva, caché de datos frecuentes y priorizar la experiencia en dispositivos móviles.",
+      "cross_pattern": null
+    },
+    {
+      "id": 6,
+      "title": "No puedo contactar a mi ejecutivo desde la plataforma digital",
+      "description": "Para hablar con mi asesor tengo que llamar por teléfono o enviar un correo. No hay un botón o chat directo dentro de la plataforma digital. Cuando tengo una operación compleja, quiero poder contactarlo sin salir de la interfaz.",
+      "dimension": 5,
+      "severity": 3,
+      "persona_quote": "Quiero hablar con alguien que entienda mi situación completa",
+      "impact": "Ruptura de la omnicanalidad. El cliente Top Tier valora el ecosistema híbrido y espera transición fluida entre digital y atención personalizada.",
+      "recommendation": "Integrar canal de contacto directo con el ejecutivo asignado dentro de la plataforma: chat seguro, videollamada o agenda de llamada desde la app.",
+      "cross_pattern": "falta_continuidad"
+    },
+    {
+      "id": 7,
+      "title": "Tengo que repetir mi situación financiera cada vez que llamo a atención al cliente",
+      "description": "Cada vez que llamo para una consulta, el operador no tiene contexto de mi perfil ni de mi historial reciente. Tengo que explicar desde cero quién soy, qué productos tengo y por qué estoy llamando. Para un cliente con mi nivel de relación con el banco, esto es inaceptable.",
+      "dimension": 5,
+      "severity": 4,
+      "persona_quote": "Esto es inaceptable para mi nivel de exigencia. Mi banco debería saber quién soy",
+      "impact": "Fricción severa en la atención. El cliente Top Tier percibe que el banco no valora su relación ni su tiempo.",
+      "recommendation": "Implementar sistema de continuidad contextual: el ejecutivo debe ver el perfil completo del cliente, historial de interacciones recientes y estado actual de sus productos antes de atender la llamada.",
+      "cross_pattern": "falta_continuidad"
+    }
+  ]
+}

@@ -1,0 +1,405 @@
+---
+import Base from "../../layouts/Base.astro";
+import BloqueCodigo from "../../components/BloqueCodigo.astro";
+import { EstadosVivos } from "../../islands/EstadosVivos";
+import { Taller } from "../../islands/Taller";
+import {
+  todosLosContratos,
+  extraerHallazgos,
+  tienePendiente,
+  extraerNotasPendiente,
+  hrefComponente,
+  type ContratoConFuente,
+} from "../../lib/contratos";
+import { tokenPorNombre } from "../../lib/tokens";
+import { codigoFuenteDe } from "../../lib/codigoFuente";
+
+export function getStaticPaths() {
+  // 100% derivado: un contrato nuevo en atomos/ (o moleculas/organismos/templates)
+  // aparece solo en el próximo build, sin tocar este archivo.
+  return todosLosContratos().map((c) => ({
+    params: { id: c.id },
+    props: { c },
+  }));
+}
+
+const { c } = Astro.props as { c: ContratoConFuente };
+const { contrato, yaml } = c;
+
+const NIVELES = ["atomo", "molecula", "organismo", "plantilla"];
+
+function normalizarUsa(usa: any[] | undefined) {
+  return (usa ?? []).map((entrada) => {
+    const nivel = NIVELES.find((n) => n in entrada);
+    if (nivel) {
+      const idHijo = String(entrada[nivel]);
+      return { esComponente: true as const, nivel, id: idHijo, rol: entrada.rol, href: hrefComponente(nivel, idHijo) };
+    }
+    const clave = Object.keys(entrada)[0];
+    const valor = entrada[clave];
+    const titulo = typeof valor === "object" && valor && "titulo" in valor ? valor.titulo : undefined;
+    return { esComponente: false as const, nivel: clave, titulo };
+  });
+}
+
+const usa = normalizarUsa(contrato.usa);
+const datos = contrato.datos ?? [];
+const variantes = contrato.variantes ?? [];
+const tokensQueUsa: [string, string][] = contrato.tokens_que_usa
+  ? (Object.entries(contrato.tokens_que_usa).filter(([, v]) => typeof v === "string") as [string, string][])
+  : [];
+const estados: string[] = contrato.estados ?? [];
+const acciones = contrato.acciones ?? [];
+const guardrails: string[] = contrato.guardrails ?? [];
+const hallazgos = extraerHallazgos(yaml);
+const pendiente = tienePendiente(yaml);
+const notasPendiente = extraerNotasPendiente(yaml);
+const archivosCodigo = codigoFuenteDe(contrato.component_id);
+---
+
+<Base title={contrato.component_id}>
+  {pendiente && (
+    <div class="banner-pendiente">
+      ⚠ Este contrato tiene piezas <strong>PENDIENTE</strong>:
+      <ul>
+        {notasPendiente.map((n) => (
+          <li>{n}</li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  <a class="volver" href="/componentes">← Componentes</a>
+  <div class="cabecera">
+    <span class="cabecera__tipo">{contrato.tipo}</span>
+    <code class="cabecera__id">{contrato.component_id}</code>
+  </div>
+  <h1>{contrato.intencion}</h1>
+
+  <section id="taller">
+    <h2>Taller</h2>
+    <p class="taller__intro">
+      Construye y depura <code>{contrato.component_id}</code> aquí mismo: cambia sus props y variantes y observa el
+      resultado en vivo, sin levantar la app.
+    </p>
+    <Taller client:only="react" componentId={contrato.component_id} variantes={variantes} datos={datos} estados={estados} acciones={acciones} />
+  </section>
+
+  <section id="codigo">
+    <h2>Código</h2>
+    {archivosCodigo.length === 0 && (
+      <p class="vacio">Este contrato todavía no tiene componente de código — solo render HTML de referencia.</p>
+    )}
+    {archivosCodigo.length > 0 && (
+      <BloqueCodigo
+        archivos={archivosCodigo.map((f) => ({ nombre: f.nombre, codigo: f.contenido, lenguaje: f.lenguaje }))}
+        etiquetaCopiar="Copiar código"
+      />
+    )}
+  </section>
+
+  <section id="anatomia">
+    <h2>Anatomía</h2>
+    <h3>Piezas (usa:)</h3>
+    {usa.length === 0 && <p class="vacio">Este contrato no compone otras piezas.</p>}
+    <ul class="anatomia__lista">
+      {usa.map((e) => (
+        <li>
+          <span class="anatomia__nivel">{e.nivel}</span>
+          {e.esComponente ? (
+            e.href ? <a href={e.href}>{e.id}</a> : <span>{e.id}</span>
+          ) : (
+            e.titulo && <span> — {e.titulo}</span>
+          )}
+          {e.esComponente && e.rol && <span class="anatomia__rol"> — rol: {e.rol}</span>}
+        </li>
+      ))}
+    </ul>
+    {contrato.layout && (
+      <>
+        <h3>Layout (estructura ejecutable)</h3>
+        <pre class="anatomia__layout"><code>{JSON.stringify(contrato.layout, null, 2)}</code></pre>
+      </>
+    )}
+  </section>
+
+  <section id="especificaciones">
+    <h2>Especificaciones</h2>
+    {variantes.length > 0 && (
+      <>
+        <h3>Variantes</h3>
+        <div class="tabla-envoltura">
+          <table class="tabla">
+            <thead><tr><th>Eje</th><th>Opciones</th><th>Por defecto</th></tr></thead>
+            <tbody>
+              {variantes.map((v: any) => (
+                <tr>
+                  <td><code>{v.eje}</code></td>
+                  <td>{(v.opciones ?? []).join(", ")}</td>
+                  <td><code>{v.por_defecto}</code></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </>
+    )}
+
+    <h3>Datos</h3>
+    <div class="tabla-envoltura">
+      <table class="tabla">
+        <thead><tr><th>Nombre</th><th>Tipo</th><th>Obligatorio</th></tr></thead>
+        <tbody>
+          {datos.map((d: any) => (
+            <tr>
+              <td><code>{d.nombre}</code></td>
+              <td>{d.tipo ?? "texto"}</td>
+              <td>{d.obligatorio ? "sí" : "no"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {tokensQueUsa.length > 0 && (
+      <>
+        <h3>tokens_que_usa</h3>
+        <div class="tabla-envoltura">
+          <table class="tabla">
+            <thead><tr><th>Parte</th><th>Token</th><th>Valor</th></tr></thead>
+            <tbody>
+              {tokensQueUsa.map(([parte, nombreToken]) => {
+                const t = tokenPorNombre(nombreToken);
+                return (
+                  <tr>
+                    <td><code>{parte}</code></td>
+                    <td><code>{nombreToken}</code></td>
+                    <td>
+                      {t?.tipo === "color" ? (
+                        <span class="tabla__swatch" style={{ background: String(t.valor) }} />
+                      ) : null}
+                      {t ? String(t.valor) : "— (medida intrínseca, no token)"}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </>
+    )}
+  </section>
+
+  <section id="estados">
+    <h2>Estados</h2>
+    <p class="estados__declarados">
+      Estados declarados en el contrato:{" "}
+      {estados.map((e, i) => (
+        <>
+          <code>{e}</code>
+          {i < estados.length - 1 ? " · " : ""}
+        </>
+      ))}
+    </p>
+    <EstadosVivos client:only="react" componentId={contrato.component_id} />
+  </section>
+
+  <section id="guias">
+    <h2>Guías</h2>
+    {guardrails.length > 0 && (
+      <>
+        <h3>Guardrails</h3>
+        <ul class="pastillas">
+          {guardrails.map((g) => <li>{g}</li>)}
+        </ul>
+      </>
+    )}
+    {acciones.length > 0 && (
+      <>
+        <h3>Acciones</h3>
+        <div class="tabla-envoltura">
+          <table class="tabla">
+            <thead><tr><th>Nombre</th><th>Dispara</th><th>Protección</th></tr></thead>
+            <tbody>
+              {acciones.map((a: any) => (
+                <tr>
+                  <td><code>{a.nombre}</code></td>
+                  <td><code>{a.dispara}</code></td>
+                  <td>{a.proteccion ?? (a.cuesta_dinero ? "requerida, sin definir" : "ninguna")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </>
+    )}
+    {hallazgos.length > 0 && (
+      <>
+        <h3>No hacer (de # HALLAZGO / # OJO en el contrato)</h3>
+        <ul class="guias__no-hacer">
+          {hallazgos.map((h) => <li>{h}</li>)}
+        </ul>
+      </>
+    )}
+    {hallazgos.length === 0 && guardrails.length === 0 && <p class="vacio">Sin hallazgos ni guardrails registrados.</p>}
+  </section>
+
+  <div class="cierre-yaml">
+    <BloqueCodigo
+      archivos={[{ nombre: `${contrato.component_id}.contract.yaml`, codigo: yaml, lenguaje: "yaml" }]}
+      etiquetaCopiar="Copiar contrato"
+    />
+  </div>
+</Base>
+
+<style>
+  .volver {
+    color: var(--text-tertiary);
+    font-size: var(--text-sm);
+    text-decoration: none;
+  }
+  .cabecera {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+  .cabecera__tipo {
+    padding: 2px 7px;
+    border-radius: var(--radius-pill);
+    background: var(--accent-soft);
+    color: var(--accent-soft-text);
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-caps);
+    font-weight: var(--fw-semibold);
+  }
+  .cabecera__id {
+    color: var(--text-tertiary);
+    font-size: var(--text-sm);
+  }
+  h1 {
+    font-size: var(--text-h1);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--ls-tight);
+    line-height: var(--lh-snug);
+    max-width: 720px;
+    margin: var(--space-2) 0 0 0;
+  }
+
+  .taller__intro {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    margin: 0 0 var(--space-4) 0;
+    max-width: 640px;
+  }
+
+  .tabla-envoltura {
+    overflow-x: auto;
+    margin-bottom: var(--space-5);
+  }
+  .tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+  .tabla th {
+    text-align: left;
+    color: var(--text-tertiary);
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-caps);
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--border-default);
+  }
+  .tabla td {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .tabla__swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    margin-right: var(--space-1);
+    vertical-align: middle;
+    border: 1px solid var(--border-subtle);
+  }
+
+  .anatomia__lista {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .anatomia__lista li {
+    padding: var(--space-2) var(--space-3);
+    background: var(--surface-inset);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+  }
+  .anatomia__nivel {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    margin-right: var(--space-2);
+  }
+  .anatomia__rol {
+    color: var(--text-secondary);
+  }
+  .anatomia__layout {
+    background: var(--surface-inset);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    overflow-x: auto;
+    font-size: var(--text-xs);
+  }
+
+  .pastillas {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .pastillas li {
+    padding: 2px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--surface-inset);
+    border: 1px solid var(--border-default);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+  }
+
+  .guias__no-hacer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: 0;
+    list-style: none;
+  }
+  .guias__no-hacer li {
+    padding: var(--space-3);
+    background: rgba(229, 72, 63, 0.08);
+    border: 1px solid var(--red-500);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+  }
+
+  .vacio {
+    color: var(--text-tertiary);
+    font-size: var(--text-sm);
+  }
+
+  .cierre-yaml {
+    margin-top: var(--space-10);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--border-subtle);
+  }
+</style>

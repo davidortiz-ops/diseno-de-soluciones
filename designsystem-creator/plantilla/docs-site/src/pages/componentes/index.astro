@@ -1,0 +1,79 @@
+---
+import Base from "../../layouts/Base.astro";
+import { todosLosContratos, tienePendiente } from "../../lib/contratos";
+
+const contratos = todosLosContratos();
+const orden = ["atomos", "moleculas", "organismos", "templates"] as const;
+const etiquetaCarpeta: Record<string, string> = {
+  atomos: "Átomos",
+  moleculas: "Moléculas",
+  organismos: "Organismos",
+  templates: "Templates",
+};
+---
+
+<Base title="Componentes">
+  <h1>Componentes</h1>
+  <p class="componentes__intro">Una página por contrato — generada leyendo su <code>.contract.yaml</code> co-locado.</p>
+
+  {orden.map((carpeta) => {
+    const enGrupo = contratos.filter((c) => c.carpeta === carpeta);
+    if (enGrupo.length === 0) return null;
+    return (
+      <section class="componentes__grupo">
+        <h2>{etiquetaCarpeta[carpeta]}</h2>
+        <div class="componentes__lista">
+          {enGrupo.map((c) => (
+            <a class="componentes__tarjeta" href={`/componentes/${c.id}`}>
+              <span class="componentes__id">{c.id}</span>
+              <p>{c.contrato.intencion}</p>
+              {tienePendiente(c.yaml) && <span class="componentes__pendiente">PENDIENTE</span>}
+            </a>
+          ))}
+        </div>
+      </section>
+    );
+  })}
+</Base>
+
+<style>
+  .componentes__intro {
+    color: var(--text-secondary);
+  }
+  .componentes__lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+  .componentes__tarjeta {
+    position: relative;
+    display: block;
+    padding: var(--space-4);
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+  .componentes__id {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--accent);
+  }
+  .componentes__tarjeta p {
+    margin: var(--space-2) 0 0 0;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+  }
+  .componentes__pendiente {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    font-size: var(--text-2xs);
+    color: var(--amber-500);
+    border: 1px solid var(--amber-500);
+    border-radius: var(--radius-pill);
+    padding: 1px 6px;
+  }
+</style>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reporte de Auditoría de Accesibilidad — {{NOMBRE_DEL_SITIO}}</title>
+  <style>
+    :root {
+      --color-texto: #1a1a1a;
+      --color-fondo: #ffffff;
+      --color-primario: #003d7a;
+      --color-borde: #d0d5dd;
+      --color-alta: #b42318;
+      --color-media: #b54708;
+      --color-baja: #027a48;
+      --radio: 8px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--color-texto);
+      background: var(--color-fondo);
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+    }
+    .contenedor { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+    header.reporte {
+      border-bottom: 4px solid var(--color-primario);
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+    h1 { color: var(--color-primario); font-size: 1.8rem; margin: 0 0 .5rem; }
+    h2 {
+      color: var(--color-primario);
+      font-size: 1.3rem;
+      border-bottom: 1px solid var(--color-borde);
+      padding-bottom: .3rem;
+      margin-top: 2.5rem;
+    }
+    h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+    .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .5rem 2rem; }
+    .meta dt { font-weight: 700; color: #475467; font-size: .85rem; }
+    .meta dd { margin: 0 0 .5rem; }
+    .score-grande {
+      font-size: 3rem; font-weight: 800; color: var(--color-primario);
+    }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .9rem; }
+    caption { text-align: left; font-weight: 700; margin-bottom: .5rem; }
+    th, td { border: 1px solid var(--color-borde); padding: .5rem .6rem; text-align: left; vertical-align: top; }
+    th { background: #f2f4f7; }
+    .barra-contenedor { background: #f2f4f7; border-radius: var(--radio); overflow: hidden; height: 1.4rem; margin: .3rem 0; }
+    .barra { height: 100%; background: var(--color-primario); color: #fff; font-size: .8rem; text-align: right; padding-right: .5rem; line-height: 1.4rem; }
+    .badge { display: inline-block; padding: .15rem .5rem; border-radius: 999px; font-size: .8rem; font-weight: 700; color: #fff; }
+    .badge-alta { background: var(--color-alta); }
+    .badge-media { background: var(--color-media); }
+    .badge-baja { background: var(--color-baja); }
+    .semaforo { display: flex; gap: 1.5rem; margin: 1rem 0; }
+    .semaforo .item { text-align: center; }
+    .semaforo .punto { width: 2.5rem; height: 2.5rem; border-radius: 50%; margin: 0 auto .3rem; }
+    details { border: 1px solid var(--color-borde); border-radius: var(--radio); margin: .6rem 0; padding: .3rem .8rem; }
+    details summary { cursor: pointer; font-weight: 700; padding: .4rem 0; }
+    code { background: #f2f4f7; padding: .1rem .3rem; border-radius: 4px; font-size: .85em; }
+    pre { background: #f2f4f7; padding: .8rem; border-radius: var(--radio); overflow-x: auto; }
+    footer.reporte { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--color-borde); font-size: .85rem; color: #475467; }
+    @media print {
+      body { font-size: 11pt; }
+      .contenedor { max-width: none; padding: 0; }
+      details { page-break-inside: avoid; }
+      details[open] summary ~ * { display: block; }
+      h2 { page-break-after: avoid; }
+    }
+  </style>
+</head>
+<body>
+<div class="contenedor">
+
+  <header class="reporte">
+    <h1>Reporte de Auditoría de Accesibilidad WCAG 2.2</h1>
+    <dl class="meta">
+      <div><dt>Cliente</dt><dd>{{CLIENTE}}</dd></div>
+      <div><dt>Sitio</dt><dd>{{NOMBRE_DEL_SITIO}} ({{URL}})</dd></div>
+      <div><dt>Fecha</dt><dd>{{FECHA}}</dd></div>
+      <div><dt>Alcance</dt><dd>{{ALCANCE}}</dd></div>
+      <div><dt>Nivel objetivo</dt><dd>{{NIVEL}}</dd></div>
+      <div><dt>Industria</dt><dd>{{INDUSTRIA}}</dd></div>
+      <div><dt>Auditor</dt><dd>{{AUDITOR}}</dd></div>
+    </dl>
+  </header>
+
+  <section aria-labelledby="resumen">
+    <h2 id="resumen">Resumen ejecutivo</h2>
+    <p>Score general de conformidad:</p>
+    <p class="score-grande">{{SCORE_GENERAL}}/100</p>
+    <p>Cumplimiento por nivel:
+       A {{PCT_A}}% · AA {{PCT_AA}}% · AAA {{PCT_AAA}}%.</p>
+    <h3>Top 5 hallazgos</h3>
+    <ol>
+      <li>{{TOP_1}}</li>
+      <li>{{TOP_2}}</li>
+      <li>{{TOP_3}}</li>
+      <li>{{TOP_4}}</li>
+      <li>{{TOP_5}}</li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="por-principio">
+    <h2 id="por-principio">Score por principio (POUR)</h2>
+    <p>Perceptible</p>
+    <div class="barra-contenedor"><div class="barra" style="width:{{PCT_PERCEPTIBLE}}%">{{PCT_PERCEPTIBLE}}%</div></div>
+    <p>Operable</p>
+    <div class="barra-contenedor"><div class="barra" style="width:{{PCT_OPERABLE}}%">{{PCT_OPERABLE}}%</div></div>
+    <p>Comprensible</p>
+    <div class="barra-contenedor"><div class="barra" style="width:{{PCT_COMPRENSIBLE}}%">{{PCT_COMPRENSIBLE}}%</div></div>
+    <p>Robusto</p>
+    <div class="barra-contenedor"><div class="barra" style="width:{{PCT_ROBUSTO}}%">{{PCT_ROBUSTO}}%</div></div>
+  </section>
+
+  <section aria-labelledby="por-pagina">
+    <h2 id="por-pagina">Score por página</h2>
+    <table>
+      <caption>Conformidad por página evaluada</caption>
+      <thead><tr><th>Página</th><th>Score</th><th>Hallazgos críticos</th></tr></thead>
+      <tbody>
+        {{FILAS_POR_PAGINA}}
+        <!-- <tr><td>Home</td><td>82</td><td>1</td></tr> -->
+      </tbody>
+    </table>
+  </section>
+
+  <section aria-labelledby="severidad">
+    <h2 id="severidad">Distribución por severidad</h2>
+    <div class="semaforo">
+      <div class="item"><div class="punto" style="background:var(--color-alta)"></div>Alta: {{N_ALTA}}</div>
+      <div class="item"><div class="punto" style="background:var(--color-media)"></div>Media: {{N_MEDIA}}</div>
+      <div class="item"><div class="punto" style="background:var(--color-baja)"></div>Baja: {{N_BAJA}}</div>
+    </div>
+  </section>
+
+  <section aria-labelledby="hallazgos">
+    <h2 id="hallazgos">Tabla de hallazgos</h2>
+    <table>
+      <caption>Hallazgos de la auditoría</caption>
+      <thead>
+        <tr>
+          <th>ID</th><th>Descripción</th><th>SC WCAG</th><th>Principio</th>
+          <th>Nivel</th><th>Industria</th><th>Componente</th>
+          <th>Severidad</th><th>Esfuerzo</th><th>Riesgo legal</th><th>Prioridad</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{FILAS_HALLAZGOS}}
+        <!-- <tr><td>H-001</td><td>...</td><td>1.1.1</td><td>Perceptible</td><td>A</td>
+             <td>Ambas</td><td>...</td><td><span class="badge badge-alta">Alta</span></td>
+             <td>Bajo</td><td>Alto</td><td>Crítico</td></tr> -->
+      </tbody>
+    </table>
+  </section>
+
+  <section aria-labelledby="prioridades">
+    <h2 id="prioridades">Prioridades de remediación</h2>
+    <table>
+      <caption>Hallazgos ordenados por prioridad compuesta</caption>
+      <thead><tr><th>Prioridad</th><th>ID</th><th>Hallazgo</th><th>Puntaje</th><th>Tiempo sugerido</th></tr></thead>
+      <tbody>
+        {{FILAS_PRIORIDAD}}
+      </tbody>
+    </table>
+  </section>
+
+  <section aria-labelledby="detalle">
+    <h2 id="detalle">Detalle de hallazgos</h2>
+    {{DETALLE_HALLAZGOS}}
+    <!-- Repetir por hallazgo:
+    <details>
+      <summary>H-001 — Imágenes sin texto alternativo (1.1.1, A)</summary>
+      <p><strong>Justificación:</strong> ...</p>
+      <p><strong>Evidencia:</strong></p>
+      <pre><code>&lt;img src="..."&gt;</code></pre>
+      <p><strong>Recomendación:</strong></p>
+      <pre><code>&lt;img src="..." alt="..."&gt;</code></pre>
+    </details>
+    -->
+  </section>
+
+  <section aria-labelledby="apendice">
+    <h2 id="apendice">Apéndice</h2>
+    <h3>Criterios evaluados</h3>
+    <p>{{CRITERIOS_EVALUADOS}}</p>
+    <h3>Herramientas utilizadas</h3>
+    <p>{{HERRAMIENTAS}}</p>
+    <h3>Referencias</h3>
+    <p>WCAG 2.2 (W3C), normativa colombiana aplicable. Ver declaración de
+       conformidad adjunta.</p>
+  </section>
+
+  <footer class="reporte">
+    <p>Reporte generado con el skill <code>accesibilidad-wcag</code> ·
+       Pragma · {{FECHA}}</p>
+  </footer>
+
+</div>
+
+<script>
+  // Expandir todos los detalles al imprimir y restaurar después.
+  window.addEventListener('beforeprint', function () {
+    document.querySelectorAll('details').forEach(function (d) {
+      d.dataset.prevOpen = d.open ? '1' : '0';
+      d.open = true;
+    });
+  });
+  window.addEventListener('afterprint', function () {
+    document.querySelectorAll('details').forEach(function (d) {
+      d.open = d.dataset.prevOpen === '1';
+    });
+  });
+</script>
+</body>
+</html>

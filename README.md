@@ -171,7 +171,12 @@ diseno-de-soluciones/
 │   └── scripts/                                 # 3 scripts + 2 plantillas JSON
 │
 ├── auditoria-de-flujos/                         # Skill estructurado
-│   └── SKILL.md                                 # Lógica principal (7 pasos, 3 aprobaciones)
+│   ├── SKILL.md                                 # Lógica principal (7 pasos, 3 aprobaciones)
+│   └── references/                              # 4 referencias
+│       ├── fuentes.md                           # Verificar Condens, Figma, Miro, capturas
+│       ├── juicio.md                            # Grados de evidencia y cinco estados
+│       ├── documento.md                         # Plantilla del informe y del brief
+│       └── blueprint.md                         # Auditoría de blueprints
 │
 ├── contratos-de-diseno/                         # Skill estructurado (sin scripts)
 │   ├── SKILL.md                                 # Lógica principal (tokens → ficha → compilar → validar)
@@ -223,7 +228,7 @@ diseno-de-soluciones/
 | Skills planos (archivo único) | 1 |
 | Guías | 1 |
 | **Total artefactos** | **9** |
-| Referencias técnicas | 28 |
+| Referencias técnicas | 32 |
 | Scripts Python / Shell | 15 |
 | Plantillas de reporte | 3 |
 | Archivos de evaluación (evals) | 6 |
